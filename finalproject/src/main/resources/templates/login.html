@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">  <!-- static 폴더 내의 login.css를 자동으로 처리 -->
+</head>
+<body>
+<div class="login-container">
+    <h3>냉동파우치 출하&승인 관리</h3>
+    <form id="loginForm" action="/login" method="POST">
+        <div class="input-container">
+            <label for="userId">ID를 입력하세요.</label>
+            <input type="text" id="userId" required />
+        </div>
+        <div class="input-container">
+            <label for="password">비밀번호를 입력하세요.</label>
+            <input type="password" id="password" name="password" required />
+        </div>
+        <div class="signup-link">
+            <p>ID가 없으신가요?   <a href="/register">회원가입</a></p></p>
+        </div>
+        <button type="submit">로그인</button>
+    </form>
+</div>
+</body>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event){
+        const userId = document.getElementById('userId').value;
+        const password = document.getElementById('password').value;
+
+        // 유효성검사
+        const validUser = {
+            "userId": "user",
+            "password": "password"
+        };
+
+        if(userId === validUser.userId && password === validUser.password){
+            alert('성공');
+        }else{
+            alert('실패');
+        }
+    });
+</script>
+</html>
