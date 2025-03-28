@@ -15,6 +15,8 @@ body{
   box-shadow: 0 0 15px rgba(0, 0, 0, 0, 0.1);
   width: 300px;
   text-align: center;
+
+
 }
 
 .register-container{
@@ -24,6 +26,7 @@ body{
   box-shadow: 0 0 15px rgba(0, 0, 0, 0, 0.1);
   width: 500px;
   text-align: center;
+
 }
 
 
@@ -33,18 +36,13 @@ body{
   width: 100%;
 }
 
-.r-input-container{
-  margin-bottom: 15px;
-  text-align: left;
+input[type="text"], input[type="password"], #section, #department{
   width: 100%;
-}
-
-input[type="text"], input[type="password"] {
-  width: 90%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 button{
@@ -84,4 +82,9 @@ p{
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #0d6efd;
   --bs-btn-disabled-border-color: #0d6efd;
+}
+.registerOrCancel{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }

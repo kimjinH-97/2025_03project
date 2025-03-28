@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -13,14 +15,15 @@ public class Employees {
     @Id
     private String userId;
     private String password;
-    private String name;
+    private String userName;
+    private String section;
     private String department;
     private String email;
     private String phoneNumber;
 
     @Column(updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDate regDate;
+    private LocalDate modDate;
 }
 
 

@@ -1,10 +1,10 @@
 package com.example.finalproject.controller.login;
 
 import com.example.finalproject.dto.login.RegisterDTO;
-import com.example.finalproject.service.login.EmployeesService;
+import com.example.finalproject.service.login.LoginService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class RegisterController {
 
-    private final EmployeesService employeesService;
+    private final LoginService loginService;
 
     @GetMapping("/register")
     public String showRegisterPage(){
@@ -21,13 +21,14 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute RegisterDTO registerDTO){
+    public String register(@ModelAttribute RegisterDTO registerDTO, Model model){
         try{
-            employeesService.registerEmployee(registerDTO);
-        }catch(IllegalAccessError e){
-            return "register"; // 이미 존재하는 사용자 이름일 때 오류페이지 이동
+            loginService.registerEmployee(registerDTO);
+        }catch(IllegalAccessError e){ // 사용자 이름이 중복될 때
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/register"; // 이미 존재하는 사용자 이름일 때 오류페이지 이동
         }
-        return "redirect:/login";
+        return "redirect:/login?success=true";
     }
 
 }

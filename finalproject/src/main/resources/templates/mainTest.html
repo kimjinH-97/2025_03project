@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+</head>
+<body>
+<!-- login 관련 추가 -->
+<div class="loginInfo">
+
+    <div>
+        <p>메 인 화 면</p>
+    </div>
+    <div class="logout" th:unless="${employee == null}">
+        <h3>[[${employee.userId}]]님 환영합니다.</h3> <!-- employeename을 userId로 수정 (예시) -->
+        <button th:onclick="location.href='/logout'">로그아웃</button>
+    </div>
+</div>
+</body>
+</html>

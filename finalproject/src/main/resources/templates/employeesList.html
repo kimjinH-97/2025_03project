@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>사원 관리</title>
+</head>
+<body>
+<!-- 'main.html'의 layout:fragment="content" 부분을 덮어쓸 내용 -->
+<div class="container-fluid" layout:fragment="content">
+    <h1 class="mt-4">사원 관리</h1>
+    <p>사원 목록을 여기에 표시할 수 있습니다.</p>
+
+    <form action="/bio/Employeeslist" method="get">
+        <div class="col">
+            <input type="hidden" name="size" th:value="${employeesPageRequestDTO.size}">
+            <div class="input-group">
+                <div class="input-group-perpend">
+                    <select class="form-select" name="type">
+                        <option value="indpc" th:selected="${employeesPageRequestDTO.type == 'indpc'}">전체</option>
+                        <option value="i" th:selected="${employeesPageRequestDTO.type == 'i'}">사원 ID</option>
+                        <option value="n" th:selected="${employeesPageRequestDTO.type == 'n'}">사원이름</option>
+                        <option value="d" th:selected="${employeesPageRequestDTO.type == 'd'}">공정</option>
+                        <option value="p" th:selected="${employeesPageRequestDTO.type == 'p'}">번호</option>
+                        <option value="c" th:selected="${employeesPageRequestDTO.type == 'c'}">부서 </option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" name="keyword" th:value="${employeesPageRequestDTO.keyword}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary searchBtn" type="submit">검 색</button>
+                    <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- 예시로 사원 목록 테이블 추가 -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>사원 ID</th>
+            <th>사원 이름</th>
+            <th>공정</th>
+            <th>e-mail</th>
+            <th>전화번호</th>
+            <th>부서</th>
+        </tr>
+        </thead>
+        <tbody th:with="link = ${employeesPageRequestDTO.getLink()}">
+        <tr th:if="${#lists.isEmpty(responseDTO.dtoList)}">
+            <td colspan="10" style="text-align:center;">검색 결과가 없습니다.</td>
+        </tr>
+        <tr th:each="dto:${responseDTO.dtoList}">
+            <td th:text="${dto.userId}"></td>
+            <td th:text="${dto.userName}"></td>
+            <td th:text="${dto.section}"></td>
+            <td th:text="${dto.email}"></td>
+            <td th:text="${dto.phoneNumber}"></td>
+            <td th:text="${dto.department}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

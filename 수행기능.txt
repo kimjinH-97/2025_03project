@@ -1,0 +1,28 @@
+
+1. 회원가입 기능 
+   - 중복된 id에 대한 처리가 제대로 이루어지지 않습니다. 수정 후 zip파일이든 소스트리든 보내드리겠습니다.
+
+2. 모든 페이지는 login 을 거쳐갈 수 있도록 구성
+  - ex. localhost:9992/main  으로 직접 접근 불가. /login 으로 자동 이동하도록 구성
+
+3. 회원가입 시 비밀번호는 암호화 될 수 있도록 구성
+  - Dbeaver 참고
+
+4. 로그인 시 session 유지
+  - 컨트롤러용 Class 생성 시 @SessionAttributes("employee") 을 붙여주세요. 로그인 세션이 유지될겁니다.
+  - EmployeesController 참고.
+
+5. build.gradle 추가하여 main.html에서 구축한 틀을 모두 이용할 수 있도록 구성
+	(1). build.gradle : implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+	(2). html 파일 생성 할 때 layout:decorate를 main.html 로 설정
+		예시) <html lang="ko" xmlns:th="http://www.thymeleaf.org" 					         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+		         layout:decorate="~{main.html}">
+
+6. 인사관리 영역 간단하게 구현(list 조회만 가능)
+
+6. 역할구분 없이 관리자가 공정/출하 전담하는 시나리오로 인지하고 있기때문에 section별 or department 별 
+   권한 구성은 없습니다.
+
+
+* 죄송합니다ㅠ 다음주 중 출근하게되어 입사 전 행정처리, 이사문제 등으로 수업 참석이 어려울 것 같습니다.
+ 수정사항 필요시 집에서 작성, 전달하여 최대한 프로젝트에 지장이 없도록 하겠습니다. 

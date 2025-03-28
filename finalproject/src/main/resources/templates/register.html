@@ -10,24 +10,34 @@
     <h3>회 원 가 입</h3>
     <form id="registerForm" method="POST" th:action="@{/register}">
         <!-- 사용자 ID -->
-        <div class="r-input-container">
+        <div class="input-container">
             <label for="userId">사용자 ID</label> <!--input의 id와 연결-->
             <input type="text" id="userId" name="userId" required />
             <span id="usernameError" style="color: red; display: none">중복된 id가 있습니다.</span>
         </div>
 
         <!-- 비밀번호 -->
-        <div class="r-input-container">
+        <div class="input-container">
             <label for="password">비밀번호</label>
             <input type="password" id="password" name="password" required />
         </div>
 
-        <div class="r-input-container">
+        <div class="input-container">
             <label for="name">이름</label>
             <input type="text" id="name" name="name" requlired />
         </div>
 
-        <div class="r-input-container">
+        <div class="input-container">
+            <label for="section">공정</label>
+            <select id="section" name="section" class="form-select" onchange="updateSection()">
+                <option value="">부서를 선택해주세요</option>
+                <option value="1">1 - 1공정</option>
+                <option value="2">2 - 2공정</option>
+                <option value="3">3 - 3공정</option>
+            </select>
+        </div>
+
+        <div class="input-container">
             <label for="department">부서</label>
             <select id="department" name="department" class="form-select" onchange="updateDepartment()">
                 <option value="">부서를 선택해주세요</option>
@@ -37,41 +47,30 @@
             </select>
         </div>
 
-        <div class="r-input-container">
+        <div class="input-container">
             <label for="phoneNumber">전화번호</label>
             <input type="text" id="phoneNumber" name="phoneNumber" />
         </div>
 
-        <div class="r-input-container">
+        <div class="input-container">
             <label for="email">이메일</label>
             <input type="text" id="email" name="email" />
         </div>
 
+        <!-- 오류 메시지 표시 -->
+        <div class="error-message" th:if="${error != null}">
+            <p style="color: red;">* ${error}</p>
+        </div>
 
         <div class="registerOrCancel">
             <button type ="submit" class="btn btn-primary regBtn">등록</button>
-
+            <button type ="button" class="btn btn-primary cancelBtn" onclick="window.location.href='/login'">취소</button>
         </div>
     </form>
 </div>
 
 <script>
-<!--    // id 중복검사-->
-<!--    document.getElementById('username').addEventListener('blur', function(){-->
-<!--        const username = document.getElementById('username').value();-->
-<!--        -->
-<!--        //ajax 요청(서버에 중복여부 확인)-->
-<!--        fetch(`/check-username?username=${username}`)-->
-<!--            .then(response => response.json())-->
-<!--            .then(data => {-->
-<!--                const errorMessage = document.getElementById('usernameError');-->
-<!--                if(data.exists){-->
-<!--                    errorMessage.style.display = 'block'; // 중복 id 가 있으면 메시지 출력-->
-<!--                }else{-->
-<!--                    errorMessage.style.display = 'none'; // 중복되지 않으면 메시지 숨기-->
-<!--                }-->
-<!--            });-->
-<!--    });-->
+
 </script>
 
 </body>

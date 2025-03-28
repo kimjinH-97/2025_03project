@@ -5,21 +5,22 @@ import com.example.finalproject.dto.login.LoginDTO;
 import com.example.finalproject.dto.login.RegisterDTO;
 import com.example.finalproject.repository.login.EmployeesRepository;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
+@Log4j2
 @Service
-public class EmployeesServiceImpl implements EmployeesService {
+public class LoginServiceImpl implements LoginService {
     private final EmployeesRepository employeesRepository;
     private final PasswordEncoder passwordEncoder;
 
     // 생성자 주입 방식
     @Autowired
-    public EmployeesServiceImpl(EmployeesRepository employeesRepository, PasswordEncoder passwordEncoder) {
+    public LoginServiceImpl(EmployeesRepository employeesRepository, PasswordEncoder passwordEncoder) {
         this.employeesRepository = employeesRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -36,13 +37,13 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
         Employees employee = optionalEmployees.get();
 
-        // 비밀번호가 맞지 않으면 null 반환
-        if (!passwordEncoder.matches(loginDTO.getPassword(), employee.getPassword())) {
-            return null;
+        if (passwordEncoder.matches(loginDTO.getPassword(), employee.getPassword())) {
+            log.info("로그인 성공: 비밀번호 일치 - 입력한 비밀번호: {}, DB 저장된 비밀번호: {}", loginDTO.getPassword(), employee.getPassword());
+            session.setAttribute("employee", employee);
+            return employee;
         }
-        // 세션에 사용자 정보 저장
-        session.setAttribute("employee", employee);
-        return employee;
+
+        return null;
     }
 
 
@@ -59,7 +60,8 @@ public class EmployeesServiceImpl implements EmployeesService {
         Employees employee = new Employees();
         employee.setUserId(registerDTO.getUserId());
         employee.setPassword(passwordEncoder.encode(registerDTO.getPassword())); // 비밀번호 암호화
-        employee.setName(registerDTO.getName());
+        employee.setUserName(registerDTO.getUserName());
+        employee.setDepartment(registerDTO.getSection());
         employee.setDepartment(registerDTO.getDepartment());
         employee.setEmail(registerDTO.getEmail());
         employee.setPhoneNumber(registerDTO.getPhoneNumber());
