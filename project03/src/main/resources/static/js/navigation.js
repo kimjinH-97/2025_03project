@@ -92,7 +92,7 @@ function eraseRoute() {
   let pathLength = linePath.length;
 
   // 경로를 점차적으로 지우는 시간 비율
-  const duration = document.getElementById("routeInfo").value.match(/이동 시간: (\d+)분 (\d+)초/);
+  const duration = document.getElementById("routeInfo").textContent.match(/이동 시간: (\d+)분 (\d+)초/);
   const totalDurationInSeconds = parseInt(duration[1]) * 60 + parseInt(duration[2]);  // 이동 시간 (초 단위)
 
   if (totalDurationInSeconds <= 0) {
@@ -127,6 +127,7 @@ function clearOtherMarkers() {
   // 마커 배열 비우기
   markers = [];
 }
+
 function closeInfoWindows() {
   if (infoWindow) {
     infoWindow.close(); // 모든 InfoWindow를 닫음
@@ -153,9 +154,9 @@ async function findRoute() {
   clearOtherMarkers();
 
   // 기존에 그려진 경로가 있으면 지도에서 제거
-    if (polyline) {
-      polyline.setMap(null);  // 기존 경로 삭제
-    }
+  if (polyline) {
+    polyline.setMap(null);  // 기존 경로 삭제
+  }
 
   // 출발지 좌표 변환
   const startLatLng = await geocodeAddress(startAddress);
@@ -223,10 +224,10 @@ async function findRoute() {
       const distance = data.routes[0].sections[0].distance; // 거리 (m 단위)
       const duration = data.routes[0].sections[0].duration; // 시간 (초 단위)
 
-      const routeInfo = `경로 정보:\n거리: ${distance / 1000} km\n이동 시간: ${Math.floor(duration / 60)}분 ${duration % 60}초`;
+      const routeInfo = `경로 정보:\n거리: ${distance / 1000} km<br>이동 시간: ${Math.floor(duration / 60)}분 ${duration % 60}초`;
 
-      // 경로 정보를 textarea에 출력
-      document.getElementById("routeInfo").value = routeInfo;
+      // 경로 정보를 div에 출력 (textarea 대신)
+      document.getElementById("routeInfo").innerHTML = routeInfo;
 
       // 총 거리 및 예상 시간
       totalDistance = distance / 1000;  // km 단위로 변환
@@ -259,12 +260,13 @@ function geocodeAddress(address) {
   });
 }
 
-// 출발 시작 버튼을 클릭하면 호출되는 함수
 function startJourney() {
   if (!totalDistance || !totalDuration) {
     alert("경로를 먼저 찾으세요!");
     return;
   }
+   // 여행이 시작되었으면 진행 상태로 표시
+    journeyInProgress = true;
 
   // 출발 시작 후 남은 거리 및 예상 도착 시간을 출력
   document.getElementById("status").textContent = "출발 중...";
@@ -275,19 +277,87 @@ function startJourney() {
   // 1초당 이동 거리 계산 (totalDistance / totalDuration * 60)
   const distancePerSecond = totalDistance / (totalDuration * 60);  // 1초당 이동할 거리 (km)
 
+  // 출발시간 기록
+  const startTime = new Date();  // 출발 시작 시간 기록
+
+  // 예상 도착시간 계산 (출발시간 + totalDuration)
+  const estimatedArrivalTime = new Date(startTime.getTime() + totalDuration * 60000);  // 밀리초로 변환
+
+  // 시간을 12시간제로 변환하는 함수
+  function formatTo12Hour(date) {
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    // 오전/오후 구분
+    const ampm = hours >= 12 ? '오후' : '오전';
+
+    // 12시간제로 변환 (12시 이후는 1~11시로 표시)
+    if (hours > 12) {
+      hours -= 12;
+    } else if (hours === 0) {
+      hours = 12;
+    }
+
+    // 두 자리 숫자로 맞추기 위해 분도 두 자릿수로 표현
+    const formattedTime = `${ampm} ${hours}시 ${minutes < 10 ? '0' + minutes : minutes}분`;
+
+    return formattedTime;
+  }
+
   // 타이머 시작
   let timeInterval = setInterval(() => {
     if (remainingTime <= 0) {
       clearInterval(timeInterval);  // 타이머 종료
-      document.getElementById("routeInfoDetails").value = "목적지에 도착했습니다!";
+      document.getElementById("routeInfoDetails").textContent = `목적지에 도착했습니다!`;
+      document.getElementById("status").textContent = "도착 완료!";
     } else {
       // 남은 거리와 시간 계산
       remainingDistance -= distancePerSecond;  // 1초가 지날 때마다 이동 거리 감소
       remainingTime -= 1;  // 1초가 지날 때마다 남은 시간 감소 (1초씩)
 
       // 실시간으로 남은 거리와 예상 도착 시간 업데이트
-      const remainingInfo = `남은 거리: ${remainingDistance.toFixed(2)} km\n예상 도착 시간: ${Math.floor(remainingTime / 60)}분 ${remainingTime % 60}초`;
-      document.getElementById("routeInfoDetails").value = remainingInfo;
+      const remainingInfo = `출발 시간: ${formatTo12Hour(startTime)}<br>` +
+                            `도착 시간: ${formatTo12Hour(estimatedArrivalTime)}<br>` +
+                            `남은 거리: ${remainingDistance.toFixed(2)} km<br>` +
+                            `남은 시간: ${Math.floor(remainingTime / 60)}분 ${remainingTime % 60}초`;
+
+      document.getElementById("routeInfoDetails").innerHTML = remainingInfo;
     }
   }, 1000);  // 1초마다 업데이트
+ // 버튼 상태 변경 (출발 -> 정지)
+  changeButtonsToStop();
+}
+function stopJourney() {
+  // 타이머를 멈추고, 경로를 초기화
+  clearInterval(timeInterval);
+  document.getElementById("status").textContent = "여행이 중지되었습니다.";
+  document.getElementById("routeInfoDetails").textContent = "여행이 중지되었습니다.";
+
+  // 버튼 상태 변경 (정지 -> 재경로 설정)
+  changeButtonsToReset();
+}
+
+function resetJourney() {
+  // 경로 초기화
+  eraseRoute(); // 경로 지우는 함수 호출
+  journeyInProgress = false;
+
+  // 버튼 상태 변경 (재경로 설정 -> 출발 시작)
+  changeButtonsToStart();
+}
+
+// 버튼 상태 변경 함수들
+function changeButtonsToStop() {
+  document.getElementById("start-btn").style.display = "none";
+  document.getElementById("stop-btn").style.display = "inline-block";
+}
+
+function changeButtonsToReset() {
+  document.getElementById("stop-btn").style.display = "none";
+  document.getElementById("reset-btn").style.display = "inline-block";
+}
+
+function changeButtonsToStart() {
+  document.getElementById("reset-btn").style.display = "none";
+  document.getElementById("start-btn").style.display = "inline-block";
 }

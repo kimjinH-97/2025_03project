@@ -20,14 +20,19 @@
     <input type="text" id="start" placeholder="출발지를 입력하세요" required>
     <input type="text" id="end" placeholder="목적지를 입력하세요" required>
     <button id="findRouteBtn" onclick="findRoute()">경로 추천</button>
-    <textarea id="routeInfo" placeholder="경로 정보를 여기에 출력합니다" readonly></textarea> <!-- 경로 정보 텍스트 박스 -->
-    <textarea id="routeInfoDetails" placeholder="출발 시작 후 남은 거리 및 예상 도착 시간" readonly></textarea>
+    <div id="routeInfo" class="route-info"
+         placeholder="경로 정보를 여기에 출력합니다" readonly></div> <!-- 경로 정보 텍스트 박스 -->
+    <div id="routeInfoDetails" class="route-info-details"
+         placeholder="출발 시작 후 남은 거리 및 예상 도착 시간" readonly></div>
+
   </div>
 
   <!-- 상태 표시 영역 -->
   <div class="status-bar">
     <div class="status">출발: <span id="status">대기중</span></div>
     <button class="start-btn" id="start-btn" onclick="startJourney()">출발 시작</button>
+    <button class="stop-btn" id="stop-btn" onclick="stopJourney()" style="display:none;">정지</button>
+    <button class="reset-btn" id="reset-btn" onclick="resetJourney()" style="display:none;">재경로 설정</button>
   </div>
 
   <!-- 검색 결과 + 지도 -->
