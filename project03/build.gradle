@@ -30,10 +30,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'  // 웹 애플리케이션을 위한 스타터
 	compileOnly 'org.projectlombok:lombok'  // Lombok 라이브러리
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'  // 개발 도구 (핫 리로딩 등)
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// MariaDB JDBC 드라이버
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.3'  // MariaDB JDBC 클라이언트
-
 	// Lombok annotation processor
 	annotationProcessor 'org.projectlombok:lombok'
 
