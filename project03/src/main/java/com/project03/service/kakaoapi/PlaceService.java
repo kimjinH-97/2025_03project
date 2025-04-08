@@ -115,9 +115,6 @@ public class PlaceService {
                         .longitude(dto.getLongitude())
                         .build()
         ));
-
     }
-
-
 
 }

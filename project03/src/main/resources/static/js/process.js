@@ -78,6 +78,7 @@ function moveNextStep() {
         addLog(errorMsg, true);
     });
 }
+let isProgressCompleteLogged = false; // 진행 완료 로그 출력 여부 플래그
 
 // 공정 시뮬레이션 시작
 function startSimulation() {
@@ -92,6 +93,7 @@ function startSimulation() {
     updateProgress(0);
     clearLogs();
     addLog(`공정 시뮬레이션 시작 (단계 ${from})`);
+    isProgressCompleteLogged = false; // 시뮬 시작할 때 플래그 초기화
 
     getElement('startBtn').disabled = true;
     getElement('stopBtn').disabled = false;
@@ -109,6 +111,13 @@ function startSimulation() {
                     const simResult = getElement('simResult');
                     if (simResult) {
                         simResult.innerHTML = `진행률: ${data.progress}% (${data.movedQuantity || 0}/${data.totalQuantity || 100})`;
+                    }
+                     // 100% 도달 시 로그 1회 출력 + 타이머 정지
+                    if (data.progress === 100 && !isProgressCompleteLogged) {
+                        addLog(`진행 상태: ${data.progress}% 완료`);
+                        isProgressCompleteLogged = true;
+                        stopSimulation(); // 자동 정지
+                        return; // 이후 처리 방지
                     }
                 }
 
