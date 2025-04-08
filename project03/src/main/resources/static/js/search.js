@@ -14,30 +14,23 @@ function initMap() {
     center: new kakao.maps.LatLng(37.5665, 126.9780),
     level: 5
   };
-
   map = new kakao.maps.Map(mapContainer, mapOption);
   infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-  loadSavedPlaces(); // 저장된 장소 불러오기
 }
 
-// DB에서 저장된 장소 불러오기
-function loadSavedPlaces() {
-  fetch("/places")
-    .then(response => response.json())
-    .then(places => processPlaces(places))
-    .catch(error => console.error("저장된 장소 로드 오류:", error));
-}
-
-// 검색 요청
+// 검색 요청 (기존 마커 초기화 추가)
 function searchPlaces(query) {
   fetch(`/search?query=${query}`)
     .then(response => response.json())
-    .then(places => processPlaces(places))
+    .then(places => {
+      clearMarkers(); // 기존 마커 초기화
+      processPlaces(places);
+    })
     .catch(error => console.error("검색 오류:", error));
 }
 
-// 검색된 장소 표시
+// 검색된 장소 목록 표시
 function displayPlacesList(places) {
   const placesList = document.getElementById("places-list");
   placesList.innerHTML = "";
@@ -51,12 +44,8 @@ function displayPlacesList(places) {
     li.setAttribute("data-address", place.address);
     li.setAttribute("data-road-address", place.roadAddress);
 
-    let label = "";
-    if (startPlace && startPlace.address === place.address) label = " (출발지)";
-    if (endPlace && endPlace.address === place.address) label = " (목적지)";
-
     li.innerHTML = `
-      <h4>${place.placeName}${label}</h4>
+      <h4>${place.placeName}</h4>
       <p>${place.address || '주소 정보 없음'}</p>
     `;
 
@@ -66,18 +55,17 @@ function displayPlacesList(places) {
 
     placesList.appendChild(li);
   });
+
+  if (places.length > 0) {
+    moveToPlace(places[0].latitude, places[0].longitude);
+    showPlaceInfo(places[0]);
+  }
 }
 
 // 장소 데이터 처리
 function processPlaces(places) {
   createMarkers(places);
   displayPlacesList(places);
-
-  if (places.length > 0) {
-    var firstPlace = places[0];
-    moveToPlace(firstPlace.latitude, firstPlace.longitude);
-    showPlaceInfo(firstPlace);
-  }
 }
 
 // 마커 이미지 설정
@@ -92,7 +80,7 @@ var endMarkerImage = new kakao.maps.MarkerImage(
 
 // 마커 생성
 function createMarkers(places) {
-  clearMarkers();
+  clearMarkers(); // 기존 마커 초기화
 
   places.forEach(function (place) {
     var markerPosition = new kakao.maps.LatLng(place.latitude, place.longitude);
@@ -146,6 +134,11 @@ window.selectPlace = function (element) {
 
   var selectedPlace = { latitude: lat, longitude: lng, placeName: name, address: address };
 
+  // 기존 라벨 제거 후 새로운 라벨 추가
+  document.querySelectorAll(".place-item").forEach(item => {
+    item.innerHTML = item.innerHTML.replace(" (출발지)", "").replace(" (목적지)", "");
+  });
+
   if (!startPlace) {
     startPlace = selectedPlace;
     updateStartMarker(startPlace);
@@ -159,12 +152,6 @@ window.selectPlace = function (element) {
   moveToPlace(lat, lng);
   showPlaceInfo(selectedPlace);
 };
-
-// 장소 정보 창 닫기
-function closePlaceInfo() {
-  document.getElementById("place_info").style.display = "none";
-  infoWindow.close();
-}
 
 // 지도 이동
 function moveToPlace(lat, lng) {
@@ -196,22 +183,6 @@ function showPlaceInfo(place) {
   infoWindow.open(map);
 }
 
-// 장소 강조 표시
-function highlightPlaceItem(place) {
-  document.querySelectorAll('.place-item').forEach(function (item) {
-    item.classList.remove('active');
-  });
-
-  document.querySelectorAll('.place-item').forEach(function (item) {
-    var itemLat = parseFloat(item.getAttribute('data-lat'));
-    var itemLng = parseFloat(item.getAttribute('data-lng'));
-
-    if (itemLat === place.latitude && itemLng === place.longitude) {
-      item.classList.add('active');
-    }
-  });
-}
-
 // 검색 폼 이벤트
 document.getElementById("searchForm").addEventListener('submit', function (event) {
   event.preventDefault();
@@ -223,3 +194,85 @@ document.getElementById("searchForm").addEventListener('submit', function (event
 document.addEventListener('DOMContentLoaded', function () {
   kakao.maps.load(initMap);
 });
+
+// 모달 창 이벤트 (중복 이벤트 해결)
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("previousRoutesModal");
+  const openBtn = document.getElementById("openPreviousRoutesModal");
+  const closeBtn = document.querySelector(".close");
+
+  // 모달 열기
+  openBtn.addEventListener("click", function () {
+    modal.style.display = "block";
+    loadPreviousRoutes(); // 경로 불러오기
+  });
+
+  // 모달 닫기 (X 버튼)
+  closeBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  // 모달 닫기 (바깥 클릭)
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+function loadPreviousRoutes() {
+  fetch("/api/routes/previous")
+    .then(response => response.json())
+    .then(routes => {
+      const list = document.getElementById("previousRoutesList");
+      list.innerHTML = "";
+
+      routes.forEach((route, index) => {
+        const li = document.createElement("li");
+        li.className = "route-item";
+
+        const text = document.createElement("span");
+        text.textContent = `출발지: ${route.startAddress} → 목적지: ${route.endAddress}`;
+        text.className = "route-text";
+        text.addEventListener("click", () => selectRoute(route));
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "삭제";
+        deleteBtn.className = "btn-delete";
+        deleteBtn.addEventListener("click", () => deleteRoute(route.id));
+
+        li.appendChild(text);
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+      });
+    })
+    .catch(error => console.error("이전 경로 로드 오류:", error));
+}
+
+function deleteRoute(routeId) {
+  fetch(`/api/routes/${routeId}`, {
+    method: "DELETE"
+  })
+    .then(response => {
+      if (response.ok) {
+        alert("경로 삭제 완료!");
+        loadPreviousRoutes(); // 다시 불러오기
+      } else {
+        alert("삭제 실패");
+      }
+    });
+}
+
+function favoriteRoute(routeId) {
+  // 서버에서 즐겨찾기 기능 구현되어 있어야 함
+  fetch(`/api/routes/favorite/${routeId}`, {
+    method: "POST"
+  })
+    .then(response => {
+      if (response.ok) {
+        alert("즐겨찾기에 추가되었습니다!");
+      } else {
+        alert("즐겨찾기 실패");
+      }
+    });
+}
