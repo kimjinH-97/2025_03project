@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{material/basic.html}">
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <form action="/material/MaterialRegister" method="post" class="p-4 border shadow-sm rounded">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width:100px; justify-content: center; background-color:#4C585B; color:#F4EDD3;">원자재명</span>
+                    <input type="text" name="materialName" class="form-control" placeholder="원자재명을 입력해주세요.">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width:100px; justify-content: center; background-color:#4C585B; color:#F4EDD3;">수 량</span>
+                    <input type="text" name="materialQuantity" class="form-control" placeholder="수량을 입력해주세요.">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width:100px; justify-content: center; background-color:#4C585B; color:#F4EDD3;">크 기</span>
+                    <input type="text" name="materialSize" class="form-control" placeholder="크기를 입력해주세요.">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width:100px; justify-content: center; background-color:#4C585B; color:#F4EDD3;">비 고</span>
+                    <input type="text" name="materialDescription" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" style="width:100px; justify-content: center; background-color:#4C585B; color:#F4EDD3;">이미지</span>
+                    <div class="float-end uploadHidden">
+                        <button type="button" class="btn btn-primary uploadFileBtn">추 가</button>
+                    </div>
+                </div>
+                <div class="my-4 text-end">
+                    <button type="submit" class="btn btn-primary submitBtn">등 록</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href=document.referrer">취 소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--첨부파일 섬네일 보여줄 부분-->
+    <div class="row mt-3">
+        <div class="col">
+            <div class="contatiner-fluid d-flex uploadResult" style="flex-wrap : wrap;"></div>
+        </div>
+    </div>
+    <!--첨부파일 추가를 위한 모달창-->
+    <div class="modal uploadModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">추 가</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="file" name="files" class="form-control" multiple>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary uploadBtn">추 가</button>
+                    <button type="button" class="btn btn-outline-dark closeUploadBtn">닫 기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/MaterialUpload.js"></script>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    const errors = [[${errors}]]
+    console.log(errors)
+
+    let errorMsg = ''
+
+    // 필드와 오류 코드에 대한 사용자 친화적인 메시지 매핑
+    const fieldMessages = {
+        materialName: '원자재명이',
+        materialQuantity: '수량이',
+
+    }
+
+    const codeMessages = {
+        NotEmpty: '비어있습니다.',
+    }
+
+    if (errors) {
+        for (let i = 0; i < errors.length; i++) {
+            // 필드명에 해당하는 사용자 친화적인 메시지를 찾음
+            const field = fieldMessages[errors[i].field] || errors[i].field;
+            // 오류 코드에 해당하는 메시지를 찾음
+            const code = codeMessages[errors[i].code] || errors[i].code;
+
+            errorMsg += `${field} ${code} \n`
+        }
+        alert(errorMsg)
+    }
+
+    //업로드 모달
+    const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
+
+    document.querySelector(".uploadFileBtn").addEventListener("click", function(e){
+        e.stopPropagation()
+        e.preventDefault()
+        uploadModal.show()
+    }, false)
+
+    document.querySelector(".uploadBtn").addEventListener("click", function(e){
+        const formObj = new FormData();
+        const fileInput = document.querySelector("input[name='files']")
+
+        const files = fileInput.files;
+
+        for(let i = 0; i < files.length; i++){
+            formObj.append("files", files[i]);
+        }
+
+        uploadToServer(formObj).then(result => {
+            console.log(result);
+            for(const uploadResult of result){
+                showUploadFile(uploadResult);
+            }
+            uploadModal.hide();
+        }).catch(e => {
+            uploadModal.hide();
+        })
+    },false);
+
+    const uploadResult = document.querySelector(".uploadResult");
+    function showUploadFile({materialUuid, materialFileName, link}) {
+        const str = `
+            <div class="card col-4">
+                <div class="card-header d-flex justify-content-center">
+                    ${materialFileName}
+                    <button class="btn-sm btn-danger" onclick="javascript:removeFile('${materialUuid}', '${materialFileName}', this)">X</button>
+                </div>
+                <div class="card-body">
+                    <img src="/view/${link}" data-src="${materialUuid+"_"+materialFileName}"}>
+                </div>
+            </div>
+        `
+        uploadResult.innerHTML += str;
+    }
+
+    //첨부파일 삭제
+    function removeFile(uuid, fileName, obj) {
+        const targetDiv = obj.closest(".card");
+
+        //실제 첨부파일 삭제 API 요청
+        removeFileToServer(uuid, fileName).then(result => {
+            targetDiv.remove();     //API성공시 첨부파일 카드 UI삭제
+        }).catch(e => {
+            console.error(e);
+        });
+    }
+
+    document.querySelector(".submitBtn").addEventListener("click", function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        const target = document.querySelector(".uploadHidden");
+        const uploadFiles = uploadResult.querySelectorAll("img");
+
+        let str = '';
+        for(let i = 0; i < uploadFiles.length; i++) {
+            const uploadFile = uploadFiles[i];                      //실제 이미지 정보의 img 태그
+            const imgLink = uploadFile.getAttribute("src");         //이미지 주소
+
+            str += `<input type = 'hidden' name = 'materialFileNames' value="${imgLink}">`;
+        }
+        target.innerHTML = str;
+
+        document.querySelector("form").submit();
+    },false);
+</script>
