@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="90c1bf56-52db-4eb5-a65b-4809b1c593d0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/PasswordEncoderTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/Project03Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/controller/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/controller/ProductController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/controller/SimulationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/controller/WarehouseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/domain/Employee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/domain/Material.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/domain/ProcessStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/domain/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/domain/Warehouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/repository/EmployeeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/repository/MaterialRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/repository/ProcessStepRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/repository/ProductRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/repository/WarehouseRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/security/CustomUserDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/security/CustomUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/java/com/project03/service/ProductService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/resources/static/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/resources/static/test.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03 - 제조과정/src/test/java/com/project03/Project03ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/Project03Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/config/RootConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/controller/MaterialController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/controller/advice/MaterialUpDownController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/domain/Material.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/domain/MaterialImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/dto/MaterialDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/dto/MaterialPageRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/dto/MaterialPageResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/dto/upload/MaterialUploadFileDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/dto/upload/MaterialUploadResultDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/repository/MaterialImageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/repository/MaterialRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/repository/search/MaterialSearch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/repository/search/MaterialSearchImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/service/MaterialService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project03/service/MaterialServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/assets/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/list.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/process.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/register.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/MaterialUpload.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/manufacturing.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/navigation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/process.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/register.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/scripts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/material/MaterialList.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/material/MaterialModify.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/material/MaterialRegister.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/material/basic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/process.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/search.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/supplier/list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/project03/Project03ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/Project03Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/confing/AppConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/confing/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/MaterialController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/advice/MaterialUpDownController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/kakaoapi/PlaceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/kakaoapi/RouteController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/MaterialController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/ProcessController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/ProductController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/SimulationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/SupplierController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/controller/manufacturing/WarehouseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/Department.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/Employee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/Material.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/MaterialImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/ProcessStep.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/Supplier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/domain/Warehouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/MaterialDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/MaterialPageRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/MaterialPageResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/PlaceDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/RouteDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/RouteResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/upload/MaterialUploadFileDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/dto/upload/MaterialUploadResultDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/entity/Place.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/entity/Route.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/MaterialImageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/MaterialRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/kakaoapi/PlaceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/kakaoapi/RouteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/manufacturing/EmployeeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/manufacturing/MaterialRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/manufacturing/ProcessStepRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/manufacturing/ProductRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/manufacturing/SupplierRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/manufacturing/WarehouseRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/search/MaterialSearch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/repository/search/MaterialSearchImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/security/CustomUserDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/security/CustomUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/service/MaterialService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/service/MaterialServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/service/kakaoapi/PlaceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/service/kakaoapi/RouteService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/service/manufacturing/MaterialService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/java/com/project03/service/manufacturing/ProductService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/log4j2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/assets/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/css/list.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/css/process.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/css/register.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/css/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/MaterialUpload.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/manufacturing.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/navigation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/process.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/register.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/scripts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/static/js/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/material/MaterialList.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/material/MaterialModify.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/material/MaterialRegister.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/material/basic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/process.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/search.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/main/resources/templates/supplier/list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/test/java/com/project03/Project03ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/test/java/com/project03/repository/MaterialRepositoryTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project03/src/test/java/com/project03/service/MaterialServiceTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2vQxnsRUV9zY1HxJieIhtCmCJhP" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.project03-원자재 [:Project03Application.main()].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/java/2025_03project-sumwoo/project03",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\java\pro03\project03-원자재\src\main\resources" />
+      <recent name="D:\java\pro03\project03-원자재\src\main\java\com\project03\service" />
+      <recent name="D:\java\pro03\project03-원자재\src\main\java\com\project03\repository\search" />
+      <recent name="D:\java\pro03\project03-원자재\src\main\java\com\project03\repository" />
+      <recent name="D:\java\pro03\project03-원자재\src\main\java\com\project03\dto\upload" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.project03.domain" />
+      <recent name="com.project03.controller.advice" />
+      <recent name="com.project03.controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Project03Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.project03.Project03Application" />
+      <module name="project03.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.project03.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="project03-원자재" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="project03-원자재" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Project03Application" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="90c1bf56-52db-4eb5-a65b-4809b1c593d0" name="Changes" comment="" />
+      <created>1744091268424</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744091268424</updated>
+    </task>
+    <servers />
+  </component>
+</project>
