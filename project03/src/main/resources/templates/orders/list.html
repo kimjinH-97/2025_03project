@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 리스트</title>
+    <link rel="stylesheet" th:href="@{/css/orders/list.css}">
+</head>
+<body>
+<div class="section">
+    <h1>주문 리스트</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>제품명</th>
+            <th>경로</th>
+            <th>상태</th>
+            <th>등록된 시간</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.warehouse.productName}"></td>
+            <td th:text="${order.route.startAddress + ' → ' + order.route.endAddress}"></td>
+            <td>
+    <span th:text="${order.status}"
+          th:class="'status ' + ${order.status.toLowerCase()}"></span>
+            </td>
+
+            <td th:text="${#temporals.format(order.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
