@@ -1,9 +1,6 @@
 package com.project03.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +20,8 @@ public class Warehouse {
     private Long quantity;
     private String materialDescription;
     private Date movedDate; // 입고 날짜
+    @Column(nullable = false)
+    private boolean isOrdered = false;
 
-    // getter/setter 생략
 }
 

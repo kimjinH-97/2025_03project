@@ -218,3 +218,30 @@ body {
   color: #555;
 }
 
+#logList {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    list-style-type: none;
+}
+
+#logList li {
+    padding: 8px 12px;
+    margin: 4px 0;
+    background-color: white;
+    border-left: 4px solid #3498db;
+    border-radius: 3px;
+}
+
+#logList li .timestamp {
+    color: #7f8c8d;
+    margin-right: 10px;
+    font-size: 0.85em;
+}
+
+#logList li .error {
+    color: #e74c3c;
+    font-weight: bold;
+}

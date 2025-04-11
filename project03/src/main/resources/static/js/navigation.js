@@ -8,157 +8,111 @@ var startMarker = null; // 출발지 마커
 var endMarker = null;   // 목적지 마커
 var polyline = null;    // 경로 폴리라인 저장 변수
 
-// 출발지 주소로부터 위도, 경도 계산 후 설정
+// 출발지 설정
 function setStartPlace() {
-  const placeName = document.getElementById("info_name").textContent; // 장소 이름
-  const placeAddress = document.getElementById("info_address").textContent; // 실제 주소
+  const placeName = document.getElementById("info_name").textContent;
+  const placeAddress = document.getElementById("info_address").textContent;
 
-  // Geocoder를 사용하여 주소로부터 위도, 경도 찾기
   var geocoder = new kakao.maps.services.Geocoder();
   geocoder.addressSearch(placeAddress, function(result, status) {
     if (status === kakao.maps.services.Status.OK) {
-      // 위도, 경도 계산된 값
       var lat = result[0].y;
       var lng = result[0].x;
 
-      // 출발지 설정
-      startPlace = {
-        placeName: placeName,
-        address: placeAddress,
-        latitude: lat,
-        longitude: lng
-      };
-
-      // 출발지 입력란에 설정 - 주소만 설정
+      startPlace = { placeName, address: placeAddress, latitude: lat, longitude: lng };
       document.getElementById("start").value = placeAddress;
 
-      // 출발지 마커 표시
-      if (startMarker) {
-        startMarker.setMap(null); // 기존 마커 삭제
-      }
-      startMarker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(lat, lng),
-        map: map
-      });
+      if (startMarker) startMarker.setMap(null);
+      startMarker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(lat, lng), map: map });
 
-      // 출발지 설정 후 검색 결과 갱신
-      searchPlaces(document.getElementById("query").value);  // 기존 검색어로 다시 검색하여 결과 업데이트
+      searchPlaces(document.getElementById("query").value);
     }
   });
 }
 
-// 목적지 주소로부터 위도, 경도 계산 후 설정
+// 목적지 설정
 function setEndPlace() {
-  const placeName = document.getElementById("info_name").textContent; // 장소 이름
-  const placeAddress = document.getElementById("info_address").textContent; // 실제 주소
+  const placeName = document.getElementById("info_name").textContent;
+  const placeAddress = document.getElementById("info_address").textContent;
 
-  // Geocoder를 사용하여 주소로부터 위도, 경도 찾기
   var geocoder = new kakao.maps.services.Geocoder();
   geocoder.addressSearch(placeAddress, function(result, status) {
     if (status === kakao.maps.services.Status.OK) {
-      // 위도, 경도 계산된 값
       var lat = result[0].y;
       var lng = result[0].x;
 
-      // 목적지 설정
-      endPlace = {
-        placeName: placeName,
-        address: placeAddress,
-        latitude: lat,
-        longitude: lng
-      };
-
-      // 목적지 입력란에 설정 - 주소만 설정
+      endPlace = { placeName, address: placeAddress, latitude: lat, longitude: lng };
       document.getElementById("end").value = placeAddress;
 
-      // 목적지 마커 표시
-      if (endMarker) {
-        endMarker.setMap(null); // 기존 마커 삭제
-      }
-      endMarker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(lat, lng),
-        map: map
-      });
+      if (endMarker) endMarker.setMap(null);
+      endMarker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(lat, lng), map: map });
 
-      // 목적지 설정 후 검색 결과 갱신
-      searchPlaces(document.getElementById("query").value);  // 기존 검색어로 다시 검색하여 결과 업데이트
+      searchPlaces(document.getElementById("query").value);
     }
   });
 }
 
-// 경로 점차적으로 지우기
-function eraseRoute() {
-  const linePath = polyline.getPath();
-  let pathLength = linePath.length;
-
-  // 경로를 점차적으로 지우는 시간 비율
-  const duration = document.getElementById("routeInfo").textContent.match(/이동 시간: (\d+)분 (\d+)초/);
-  const totalDurationInSeconds = parseInt(duration[1]) * 60 + parseInt(duration[2]);  // 이동 시간 (초 단위)
-
-  if (totalDurationInSeconds <= 0) {
-    console.error("유효한 이동 시간이 없습니다.");
-    return;
-  }
-
-  const intervalTime = totalDurationInSeconds * 1000 / pathLength;  // 경로의 길이에 맞춰 각 점을 지우는 시간 계산
-
-  let currentIndex = 0;
-  const interval = setInterval(function() {
-    if (currentIndex >= pathLength) {
-      clearInterval(interval);
-      document.getElementById("status").textContent = "도착!"; // 도착 상태로 변경
-    } else {
-      linePath.shift();  // 첫 번째 점을 하나씩 제거
-      polyline.setPath(linePath); // 경로 업데이트
-    }
-    currentIndex++;
-  }, intervalTime);  // 각 점을 일정 시간 간격으로 삭제
-}
-
-// 경로 추천 버튼 클릭 시 기존 마커 제거
+// 기존 마커 제거
 function clearOtherMarkers() {
-  // 출발지와 목적지 마커는 제외하고 나머지 마커들 삭제
   markers.forEach(marker => {
     if (marker !== startMarker && marker !== endMarker) {
-      marker.setMap(null); // 마커 제거
+      marker.setMap(null);
     }
   });
-
-  // 마커 배열 비우기
   markers = [];
 }
 
-function closeInfoWindows() {
-  if (infoWindow) {
-    infoWindow.close(); // 모든 InfoWindow를 닫음
+// 주소 → 좌표 변환 함수
+function geocodeAddress(address) {
+  return new Promise((resolve, reject) => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(address, (result, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        resolve(new kakao.maps.LatLng(result[0].y, result[0].x));
+      } else {
+        reject("주소 변환 실패");
+      }
+    });
+  });
+}
+
+// 🚀 [추가] 백엔드로 경로 데이터 전송
+async function sendRouteToBackend(start, end, distance, duration) {
+  try {
+    const response = await fetch('/api/routes/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        start: { placeName: start, address: start }, // start 필드 맞추기
+        end: { placeName: end, address: end },       // end 필드 맞추기
+        distance,
+        duration
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("경로 정보가 성공적으로 저장되었습니다.");
+  } catch (error) {
+    console.error("백엔드 저장 오류:", error);
   }
 }
 
-let totalDistance = 0;  // 총 거리 (km 단위, 초기값은 0)
-let totalDuration = 0;  // 예상 도착 시간 (분 단위, 초기값은 0)
-let remainingDistance = 0;  // 남은 거리 (초기값은 총 거리)
-let remainingTime = 0;  // 남은 시간 (초 단위로 계산)
 
-// 경로 찾기만 하는 함수
+// 🛣 경로 찾기
 async function findRoute() {
-
-  const startAddress = document.getElementById("start").value;  // 출발지 주소
-  const endAddress = document.getElementById("end").value;  // 목적지 주소
+  const startAddress = document.getElementById("start").value;
+  const endAddress = document.getElementById("end").value;
 
   if (!startAddress || !endAddress) {
     alert("출발지와 목적지를 입력하세요!");
     return;
   }
 
-  // 경로 찾기 전에 기존 마커들 제거
   clearOtherMarkers();
+  if (polyline) polyline.setMap(null);
 
-  // 기존에 그려진 경로가 있으면 지도에서 제거
-  if (polyline) {
-    polyline.setMap(null);  // 기존 경로 삭제
-  }
-
-  // 출발지 좌표 변환
   const startLatLng = await geocodeAddress(startAddress);
   const endLatLng = await geocodeAddress(endAddress);
 
@@ -167,40 +121,18 @@ async function findRoute() {
     return;
   }
 
-  const REST_API_KEY = 'ccc93a4ef4efcbf5df114841f4c5b32b';  // 발급받은 Kakao API 키
-  const url = 'https://apis-navi.kakaomobility.com/v1/directions';
-
-  const origin = `${startLatLng.getLng()},${startLatLng.getLat()}`;  // 출발지 좌표
-  const destination = `${endLatLng.getLng()},${endLatLng.getLat()}`;  // 목적지 좌표
-
-  const headers = {
-    Authorization: `KakaoAK ${REST_API_KEY}`,
-    'Content-Type': 'application/json'
-  };
-
-  const queryParams = new URLSearchParams({
-    origin: origin,
-    destination: destination
-  });
-
-  const requestUrl = `${url}?${queryParams}`;
+  const REST_API_KEY = 'ccc93a4ef4efcbf5df114841f4c5b32b';
+  const url = `https://apis-navi.kakaomobility.com/v1/directions?origin=${startLatLng.getLng()},${startLatLng.getLat()}&destination=${endLatLng.getLng()},${endLatLng.getLat()}`;
 
   try {
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: headers
-    });
+    const response = await fetch(url, { method: 'GET', headers: { Authorization: `KakaoAK ${REST_API_KEY}`, 'Content-Type': 'application/json' } });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
     const data = await response.json();
 
     if (data.routes && data.routes.length > 0) {
       const linePath = [];
-
-      // 경로 데이터 처리: vertexes에서 좌표 추출
       data.routes[0].sections[0].roads.forEach(router => {
         router.vertexes.forEach((vertex, index) => {
           if (index % 2 === 0) {
@@ -209,33 +141,20 @@ async function findRoute() {
         });
       });
 
-      // 경로를 지도에 표시
       polyline = new kakao.maps.Polyline({
         path: linePath,
-        strokeWeight: 5,  // 선 두께
-        strokeColor: '#000000',  // 선 색깔
-        strokeOpacity: 0.7,  // 선 투명도
-        strokeStyle: 'solid'  // 선 스타일
+        strokeWeight: 5, strokeColor: '#000000', strokeOpacity: 0.7, strokeStyle: 'solid'
       });
 
-      polyline.setMap(map);  // map은 지도 객체
+      polyline.setMap(map);
 
-      // 거리와 이동시간을 텍스트로 출력
-      const distance = data.routes[0].sections[0].distance; // 거리 (m 단위)
-      const duration = data.routes[0].sections[0].duration; // 시간 (초 단위)
+      const distance = data.routes[0].sections[0].distance / 1000;
+      const duration = data.routes[0].sections[0].duration / 60;
 
-      const routeInfo = `경로 정보:\n거리: ${distance / 1000} km<br>이동 시간: ${Math.floor(duration / 60)}분 ${duration % 60}초`;
+      document.getElementById("routeInfo").innerHTML = `경로 정보:<br>거리: ${distance} km<br>이동 시간: ${Math.floor(duration)}분`;
 
-      // 경로 정보를 div에 출력 (textarea 대신)
-      document.getElementById("routeInfo").innerHTML = routeInfo;
-
-      // 총 거리 및 예상 시간
-      totalDistance = distance / 1000;  // km 단위로 변환
-      totalDuration = duration / 60;  // 분 단위로 변환
-
-      // 남은 거리 및 시간 초기화
-      remainingDistance = totalDistance;
-      remainingTime = totalDuration * 60;  // 분 단위로 변환 후 초 단위로 설정
+      // 🚀 [추가] 경로 정보 백엔드 저장
+      await sendRouteToBackend(startAddress, endAddress, distance, duration);
 
     } else {
       console.error("경로를 찾을 수 없습니다.");
@@ -243,121 +162,4 @@ async function findRoute() {
   } catch (error) {
     console.error('Error:', error);
   }
-}
-
-// 주소를 좌표로 변환하는 함수
-function geocodeAddress(address) {
-  return new Promise((resolve, reject) => {
-    const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.addressSearch(address, (result, status) => {
-      if (status === kakao.maps.services.Status.OK) {
-        const latLng = new kakao.maps.LatLng(result[0].y, result[0].x);
-        resolve(latLng);  // 좌표 반환
-      } else {
-        reject("주소 변환 실패");
-      }
-    });
-  });
-}
-
-function startJourney() {
-  if (!totalDistance || !totalDuration) {
-    alert("경로를 먼저 찾으세요!");
-    return;
-  }
-   // 여행이 시작되었으면 진행 상태로 표시
-    journeyInProgress = true;
-
-  // 출발 시작 후 남은 거리 및 예상 도착 시간을 출력
-  document.getElementById("status").textContent = "출발 중...";
-
-  // 경로 지우기 (출발 시작 버튼 클릭 시 경로 삭제)
-  eraseRoute(); // 경로 지우는 함수 호출
-
-  // 1초당 이동 거리 계산 (totalDistance / totalDuration * 60)
-  const distancePerSecond = totalDistance / (totalDuration * 60);  // 1초당 이동할 거리 (km)
-
-  // 출발시간 기록
-  const startTime = new Date();  // 출발 시작 시간 기록
-
-  // 예상 도착시간 계산 (출발시간 + totalDuration)
-  const estimatedArrivalTime = new Date(startTime.getTime() + totalDuration * 60000);  // 밀리초로 변환
-
-  // 시간을 12시간제로 변환하는 함수
-  function formatTo12Hour(date) {
-    let hours = date.getHours();
-    const minutes = date.getMinutes();
-
-    // 오전/오후 구분
-    const ampm = hours >= 12 ? '오후' : '오전';
-
-    // 12시간제로 변환 (12시 이후는 1~11시로 표시)
-    if (hours > 12) {
-      hours -= 12;
-    } else if (hours === 0) {
-      hours = 12;
-    }
-
-    // 두 자리 숫자로 맞추기 위해 분도 두 자릿수로 표현
-    const formattedTime = `${ampm} ${hours}시 ${minutes < 10 ? '0' + minutes : minutes}분`;
-
-    return formattedTime;
-  }
-
-  // 타이머 시작
-  let timeInterval = setInterval(() => {
-    if (remainingTime <= 0) {
-      clearInterval(timeInterval);  // 타이머 종료
-      document.getElementById("routeInfoDetails").textContent = `목적지에 도착했습니다!`;
-      document.getElementById("status").textContent = "도착 완료!";
-    } else {
-      // 남은 거리와 시간 계산
-      remainingDistance -= distancePerSecond;  // 1초가 지날 때마다 이동 거리 감소
-      remainingTime -= 1;  // 1초가 지날 때마다 남은 시간 감소 (1초씩)
-
-      // 실시간으로 남은 거리와 예상 도착 시간 업데이트
-      const remainingInfo = `출발 시간: ${formatTo12Hour(startTime)}<br>` +
-                            `도착 시간: ${formatTo12Hour(estimatedArrivalTime)}<br>` +
-                            `남은 거리: ${remainingDistance.toFixed(2)} km<br>` +
-                            `남은 시간: ${Math.floor(remainingTime / 60)}분 ${remainingTime % 60}초`;
-
-      document.getElementById("routeInfoDetails").innerHTML = remainingInfo;
-    }
-  }, 1000);  // 1초마다 업데이트
- // 버튼 상태 변경 (출발 -> 정지)
-  changeButtonsToStop();
-}
-function stopJourney() {
-  // 타이머를 멈추고, 경로를 초기화
-  clearInterval(timeInterval);
-  document.getElementById("status").textContent = "여행이 중지되었습니다.";
-  document.getElementById("routeInfoDetails").textContent = "여행이 중지되었습니다.";
-
-  // 버튼 상태 변경 (정지 -> 재경로 설정)
-  changeButtonsToReset();
-}
-
-function resetJourney() {
-  // 경로 초기화
-  eraseRoute(); // 경로 지우는 함수 호출
-  journeyInProgress = false;
-
-  // 버튼 상태 변경 (재경로 설정 -> 출발 시작)
-  changeButtonsToStart();
-}
-
-// 버튼 상태 변경 함수들
-function changeButtonsToStop() {
-  document.getElementById("start-btn").style.display = "none";
-  document.getElementById("stop-btn").style.display = "inline-block";
-}
-
-function changeButtonsToReset() {
-  document.getElementById("stop-btn").style.display = "none";
-  document.getElementById("reset-btn").style.display = "inline-block";
-}
-
-function changeButtonsToStart() {
-  document.getElementById("reset-btn").style.display = "none";
-  document.getElementById("start-btn").style.display = "inline-block";
 }

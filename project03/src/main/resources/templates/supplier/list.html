@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공급자 목록</title>
+    <link rel="stylesheet" th:href="@{/css/supplier/list.css}">
+</head>
+<body>
+<div class="container">
+    <header class="page-header">
+        <h2>공급자 목록</h2>
+    </header>
+    <section class="table-section">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>회사명</th>
+                <th>담당자</th>
+                <th>전화번호</th>
+                <th>이메일</th>
+                <th>주소</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="supplier : ${suppliers}">
+                <td th:text="${supplier.id}"></td>
+                <td th:text="${supplier.companyName}"></td>
+                <td th:text="${supplier.contactPerson}"></td>
+                <td th:text="${supplier.phoneNumber}"></td>
+                <td th:text="${supplier.email}"></td>
+                <td th:text="${supplier.address}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="button-area">
+        <button onclick="location.href='/suppliers/register'">➕ 원자재 회사 등록</button>
+    </div>
+</div>
+</body>
+</html>
