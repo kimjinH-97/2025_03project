@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 경로 보기</title>
+    <link rel="stylesheet" th:href="@{/css/search.css}">
+</head>
+<body>
+<div class="container">
+
+    <!-- ✅ 주문 상세 정보 -->
+    <div class="section">
+        <h1>주문 상세 정보</h1>
+        <ul>
+            <li><strong>주문 ID:</strong> <span th:text="${order.id}"></span></li>
+            <li><strong>제품명:</strong> <span th:text="${order.warehouse.productName}"></span></li>
+            <li><strong>경로:</strong> <span th:text="${order.route.startAddress + ' → ' + order.route.endAddress}"></span></li>
+            <li><strong>상태:</strong> <span th:text="${order.status}"></span></li>
+            <li><strong>등록 시간:</strong> <span th:text="${#temporals.format(order.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></li>
+        </ul>
+        <a href="/orders/list">← 주문 리스트로 돌아가기</a>
+    </div>
+
+    <!-- ✅ 경로 및 지도 표시 -->
+    <div class="location-inputs">
+        <input type="text" id="start" th:value="${order.route.startAddress}" readonly>
+        <input type="text" id="end" th:value="${order.route.endAddress}" readonly>
+
+        <!-- 경로 정보 -->
+        <div id="routeInfo" style="margin-top: 10px;"></div>
+        <!-- 출발지 → 도착지 -->
+        <div id="placeNames" style="font-weight: bold; margin-top: 10px;"></div>
+        <!-- 남은 거리 및 시간 -->
+        <div id="routeInfoDetails" class="route-info-details" style="margin-top: 10px; white-space: pre-wrap;"></div>
+    </div>
+
+    <!-- ✅ 상태 및 버튼 -->
+    <div class="status-bar" style="margin-top: 20px;">
+        <div>배송 상태: <span id="status">대기중</span></div>
+        <button class="start-btn" onclick="startJourney()">배송 시작</button>
+    </div>
+
+    <!-- ✅ 지도 -->
+    <div id="map" style="width:100%; height:600px; border-radius:12px; margin-top: 20px;"></div>
+</div>
+
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3e305e2eebc1e0947c8ad966fe6d9f31&libraries=services"></script>
+<script src="/js/detail.js"></script>
+</body>
+</html>
