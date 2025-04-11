@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,116 +8,57 @@
 </head>
 <body>
 <div class="container">
-
   <!-- 검색창 -->
-  <section class="search-box">
+  <div class="search-box">
     <form id="searchForm">
-      <input type="text" id="query" name="query" placeholder="장소를 검색하세요" required>
+      <input type="text" id="query" name="query" placeholder="장소를 검색" required>
       <button type="submit">검색</button>
     </form>
-    <button id="openPreviousRoutesModal">이전 경로 불러오기</button>
-    <button onclick="getLocation()">내 위치 전송</button>
-    <p id="gpsgat"></p>
-  </section>
-
-  <!-- 이전 경로 모달 -->
-  <div id="previousRoutesModal" class="modal">
-    <div class="modal-content">
-      <h2>이전 경로</h2>
-      <ul id="previousRoutesList"></ul>
-      <div class="modal-buttons">
-        <button class="close" onclick="closeModal()">닫기</button>
-      </div>
-    </div>
   </div>
-
   <!-- 출발지 및 목적지 입력란 -->
-  <section class="location-inputs">
+  <div class="location-inputs">
     <input type="text" id="start" placeholder="출발지를 입력하세요" required>
     <input type="text" id="end" placeholder="목적지를 입력하세요" required>
     <button id="findRouteBtn" onclick="findRoute()">경로 추천</button>
+    <div id="routeInfo" class="route-info"
+         placeholder="경로 정보를 여기에 출력합니다" readonly></div> <!-- 경로 정보 텍스트 박스 -->
+    <div id="routeInfoDetails" class="route-info-details"
+         placeholder="출발 시작 후 남은 거리 및 예상 도착 시간" readonly></div>
 
-    <div id="routeInfo" class="route-info"></div>
-    <div id="placeNames" style="font-weight: bold; margin-top: 10px;"></div>
-    <div id="routeInfoDetails" class="route-info-details"></div>
-  </section>
+  </div>
 
-  <!-- 상태 표시 -->
-  <section class="status-bar">
+  <!-- 상태 표시 영역 -->
+  <div class="status-bar">
     <div class="status">출발: <span id="status">대기중</span></div>
     <button class="start-btn" id="start-btn" onclick="startJourney()">출발 시작</button>
-    <button id="stop-btn" onclick="pauseJourney()" style="display: none;">출발 중지</button>
-    <button id="resume-btn" onclick="resumeJourney()" style="display: none;">재시작</button>
-    <button class="reset-btn" id="reset-btn" onclick="resetJourney()" style="display: none;">재경로 설정</button>
-  </section>
+    <button class="stop-btn" id="stop-btn" onclick="stopJourney()" style="display:none;">정지</button>
+    <button class="reset-btn" id="reset-btn" onclick="resetJourney()" style="display:none;">재경로 설정</button>
+  </div>
 
-  <!-- 지도 및 검색 결과 -->
-  <section class="map-container">
+  <!-- 검색 결과 + 지도 -->
+  <div class="map-container">
+    <!-- 검색 결과 목록 -->
     <div class="search-results">
       <ul id="places-list"></ul>
     </div>
+    <!-- 지도 -->
     <div id="map"></div>
-  </section>
+  </div>
 
-  <!-- 장소 정보 표시 -->
-  <aside class="place-info" id="place_info">
+  <!-- 장소 정보 표시 창 -->
+  <div class="place-info" id="place_info">
     <div class="close-btn" onclick="closePlaceInfo()">×</div>
     <h3 id="info_name">장소 정보</h3>
     <p><strong>주소:</strong> <span id="info_address">주소 정보 없음</span></p>
     <p><strong>도로명 주소:</strong> <span id="info_road_address">도로명 주소 없음</span></p>
     <button id="setStartBtn" onclick="setStartPlace()">출발지 설정</button>
     <button id="setEndBtn" onclick="setEndPlace()">목적지 설정</button>
-  </aside>
-
+  </div>
 </div>
 
-<!-- 스크립트 로드 -->
 <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3e305e2eebc1e0947c8ad966fe6d9f31&libraries=services"></script>
 <script src="/js/search.js"></script>
 <script src="/js/navigation.js"></script>
-<script>
-  // 웹소켓 서버와 연결
-  const socket = new WebSocket('ws://localhost:8084'); // 포트 변경됨
 
-  socket.onopen = () => {
-    console.log('웹소켓 서버에 연결되었습니다');
-  };
-
-  socket.onmessage = (event) => {
-    console.log('서버로부터 메시지:', event.data);
-  };
-
-  // 위치를 가져오는 함수
-  function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const lat = position.coords.latitude;
-      const long = position.coords.longitude;
-
-      // 위치 정보를 서버로 전송
-      const locationData = JSON.stringify({ latitude: lat, longitude: long });
-      socket.send(locationData);
-
-      // Kakao API를 이용하여 위도, 경도 -> 주소 변환
-      const geocoder = new kakao.maps.services.Geocoder();
-      const coord = new kakao.maps.LatLng(lat, long);
-
-      geocoder.coord2Address(coord.getLng(), coord.getLat(), (result, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-          const address = result[0].address.address_name; // 받은 주소
-          document.getElementById('gpsgat').textContent = `현재 위치: ${address}`;
-        } else {
-          document.getElementById('gpsgat').textContent = '주소를 찾을 수 없습니다.';
-        }
-      });
-
-    }, (error) => {
-      document.getElementById('gpsgat').textContent = '위치 정보를 가져오지 못했습니다';
-    });
-  } else {
-    document.getElementById('gpsgat').textContent = 'Geolocation을 지원하지 않는 브라우저입니다.';
-  }
-}
-</script>
 </body>
 </html>

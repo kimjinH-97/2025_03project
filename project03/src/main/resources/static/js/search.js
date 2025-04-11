@@ -14,23 +14,30 @@ function initMap() {
     center: new kakao.maps.LatLng(37.5665, 126.9780),
     level: 5
   };
+
   map = new kakao.maps.Map(mapContainer, mapOption);
   infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
+  loadSavedPlaces(); // 저장된 장소 불러오기
 }
 
-// 검색 요청 (기존 마커 초기화 추가)
+// DB에서 저장된 장소 불러오기
+function loadSavedPlaces() {
+  fetch("/places")
+    .then(response => response.json())
+    .then(places => processPlaces(places))
+    .catch(error => console.error("저장된 장소 로드 오류:", error));
+}
+
+// 검색 요청
 function searchPlaces(query) {
   fetch(`/search?query=${query}`)
     .then(response => response.json())
-    .then(places => {
-      clearMarkers(); // 기존 마커 초기화
-      processPlaces(places);
-    })
+    .then(places => processPlaces(places))
     .catch(error => console.error("검색 오류:", error));
 }
 
-// 검색된 장소 목록 표시
+// 검색된 장소 표시
 function displayPlacesList(places) {
   const placesList = document.getElementById("places-list");
   placesList.innerHTML = "";
@@ -44,8 +51,12 @@ function displayPlacesList(places) {
     li.setAttribute("data-address", place.address);
     li.setAttribute("data-road-address", place.roadAddress);
 
+    let label = "";
+    if (startPlace && startPlace.address === place.address) label = " (출발지)";
+    if (endPlace && endPlace.address === place.address) label = " (목적지)";
+
     li.innerHTML = `
-      <h4>${place.placeName}</h4>
+      <h4>${place.placeName}${label}</h4>
       <p>${place.address || '주소 정보 없음'}</p>
     `;
 
@@ -55,17 +66,18 @@ function displayPlacesList(places) {
 
     placesList.appendChild(li);
   });
-
-  if (places.length > 0) {
-    moveToPlace(places[0].latitude, places[0].longitude);
-    showPlaceInfo(places[0]);
-  }
 }
 
 // 장소 데이터 처리
 function processPlaces(places) {
   createMarkers(places);
   displayPlacesList(places);
+
+  if (places.length > 0) {
+    var firstPlace = places[0];
+    moveToPlace(firstPlace.latitude, firstPlace.longitude);
+    showPlaceInfo(firstPlace);
+  }
 }
 
 // 마커 이미지 설정
@@ -80,7 +92,7 @@ var endMarkerImage = new kakao.maps.MarkerImage(
 
 // 마커 생성
 function createMarkers(places) {
-  clearMarkers(); // 기존 마커 초기화
+  clearMarkers();
 
   places.forEach(function (place) {
     var markerPosition = new kakao.maps.LatLng(place.latitude, place.longitude);
@@ -134,11 +146,6 @@ window.selectPlace = function (element) {
 
   var selectedPlace = { latitude: lat, longitude: lng, placeName: name, address: address };
 
-  // 기존 라벨 제거 후 새로운 라벨 추가
-  document.querySelectorAll(".place-item").forEach(item => {
-    item.innerHTML = item.innerHTML.replace(" (출발지)", "").replace(" (목적지)", "");
-  });
-
   if (!startPlace) {
     startPlace = selectedPlace;
     updateStartMarker(startPlace);
@@ -152,6 +159,12 @@ window.selectPlace = function (element) {
   moveToPlace(lat, lng);
   showPlaceInfo(selectedPlace);
 };
+
+// 장소 정보 창 닫기
+function closePlaceInfo() {
+  document.getElementById("place_info").style.display = "none";
+  infoWindow.close();
+}
 
 // 지도 이동
 function moveToPlace(lat, lng) {
@@ -183,6 +196,22 @@ function showPlaceInfo(place) {
   infoWindow.open(map);
 }
 
+// 장소 강조 표시
+function highlightPlaceItem(place) {
+  document.querySelectorAll('.place-item').forEach(function (item) {
+    item.classList.remove('active');
+  });
+
+  document.querySelectorAll('.place-item').forEach(function (item) {
+    var itemLat = parseFloat(item.getAttribute('data-lat'));
+    var itemLng = parseFloat(item.getAttribute('data-lng'));
+
+    if (itemLat === place.latitude && itemLng === place.longitude) {
+      item.classList.add('active');
+    }
+  });
+}
+
 // 검색 폼 이벤트
 document.getElementById("searchForm").addEventListener('submit', function (event) {
   event.preventDefault();
@@ -194,6 +223,3 @@ document.getElementById("searchForm").addEventListener('submit', function (event
 document.addEventListener('DOMContentLoaded', function () {
   kakao.maps.load(initMap);
 });
-
-
-

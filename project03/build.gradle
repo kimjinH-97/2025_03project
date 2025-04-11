@@ -28,19 +28,39 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'  // JPA 관련 스타터
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  // Thymeleaf 템플릿 엔진
 	implementation 'org.springframework.boot:spring-boot-starter-web'  // 웹 애플리케이션을 위한 스타터
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 	compileOnly 'org.projectlombok:lombok'  // Lombok 라이브러리
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'  // 개발 도구 (핫 리로딩 등)
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// MariaDB JDBC 드라이버
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.3'  // MariaDB JDBC 클라이언트
 	// Lombok annotation processor
 	annotationProcessor 'org.projectlombok:lombok'
+	// Lombok
+	compileOnly("org.projectlombok:lombok:1.18.30")
+	annotationProcessor("org.projectlombok:lombok:1.18.30")
+	// Log4j2
+	implementation("org.apache.logging.log4j:log4j-api:2.22.1")
+	implementation("org.apache.logging.log4j:log4j-core:2.22.1")
+
+	implementation 'org.modelmapper:modelmapper:3.1.0'
 
 	// 테스트 관련
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'  // Spring Boot 테스트 스타터
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'  // JUnit 런처
+
+
+	// swagger-ui 사용
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	implementation 'net.coobird:thumbnailator:0.4.16'
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

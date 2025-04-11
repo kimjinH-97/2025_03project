@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return employeeRepository.findByUserId(userId)
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> {
-                    System.out.println("❌ 사용자를 찾을 수 없습니다: " + userId);
+                    System.out.println("사용자를 찾을 수 없습니다: " + userId);
                     return new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
                 });
     }

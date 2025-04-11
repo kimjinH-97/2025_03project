@@ -17,12 +17,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // 권한 없음
+        return Collections.emptyList();
     }
 
     @Override
     public String getPassword() {
-        System.out.println("[로그] DB에 저장된 암호화된 비밀번호: " + employee.getPassword()); //  이 줄 추가
         return employee.getPassword();
     }
 

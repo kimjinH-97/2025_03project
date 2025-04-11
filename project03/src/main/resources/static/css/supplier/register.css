@@ -1,0 +1,101 @@
+/* 기본 레이아웃 */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f6f8;
+    color: #2c3e50;
+    margin: 0;
+    padding: 60px 20px;
+    font-size: 18px;
+}
+
+/* 섹션 박스 */
+.section {
+    max-width: 700px;
+    margin: auto;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+.section h2 {
+    text-align: center;
+    margin-bottom: 35px;
+    color: #34495e;
+    font-size: 2.2rem;
+}
+
+/* 입력 그룹 */
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 1px solid #dcdde1;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* 버튼 그룹 */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    gap: 20px;
+}
+
+button {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    background-color: #bdc3c7;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #95a5a6;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}

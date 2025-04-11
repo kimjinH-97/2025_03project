@@ -3,10 +3,10 @@ package com.project03.service.manufacturing;
 import com.project03.domain.Material;
 import com.project03.domain.ProcessStep;
 import com.project03.domain.Product;
+import com.project03.repository.manufacturing.MaterialRepository;
 import com.project03.repository.manufacturing.ProcessStepRepository;
 import com.project03.repository.manufacturing.ProductRepository;
 import org.springframework.stereotype.Service;
-import com.project03.repository.manufacturing.MaterialRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -72,7 +72,7 @@ public class ProductService {
         product.setMaterialDescription(material.getMaterialDescription()); // 등급 복사
         product.setManufactureDate(new Date());
         product.setDescription("등록된 제품입니다.");
-        product.setQuantity(material.getMaterialQuantity());
+        product.setQuantity(Long.valueOf(String.valueOf(material.getMaterialQuantity())));
 
         // 공정 0단계 설정
         ProcessStep zeroStep = processStepRepository.findBySequence(0L)

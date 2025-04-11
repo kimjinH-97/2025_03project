@@ -8,9 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class Project03Application {
 
 	public static void main(String[] args) {
-		String rawPassword = "123"; // 원래 비밀번호
-		String encodedPassword = new BCryptPasswordEncoder().encode(rawPassword); // 암호화
-		System.out.println(encodedPassword); // 결과 출력
+		String rawPassword = "123";
+		String encodedPassword = new BCryptPasswordEncoder().encode(rawPassword);
+		System.out.println(encodedPassword);
 		SpringApplication.run(Project03Application.class, args);
 	}
 

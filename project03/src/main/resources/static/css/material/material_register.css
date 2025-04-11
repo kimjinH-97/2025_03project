@@ -1,0 +1,156 @@
+/* 기본 스타일 */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* 폼 스타일 */
+.form-container {
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 30px !important;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group-text {
+    width: 120px;
+    font-weight: 600;
+    background-color: #f1f3f5;
+    color: #495057;
+    border: 1px solid #ced4da;
+}
+
+.form-control {
+    padding: 12px 15px;
+    font-size: 1.1rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* 버튼 스타일 */
+.btn {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+.btn-outline-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* 이미지 업로드 영역 */
+.upload-result-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.upload-result {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    min-height: 100px;
+}
+
+.upload-result img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 5px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 모달 스타일 */
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 20px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 20px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .input-group-text {
+        width: 100px;
+    }
+
+    .form-control {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+}

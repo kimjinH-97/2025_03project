@@ -17,7 +17,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/doLogin", "/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/test.html").authenticated() // test.html은 보호
+                        .requestMatchers("/process").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -25,7 +25,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/doLogin")
                         .usernameParameter("userId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/test.html", true)
+                        .defaultSuccessUrl("/process", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout=true")
                 )
-                .csrf(csrf -> csrf.disable()); // 테스트 중엔 꺼두기
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
