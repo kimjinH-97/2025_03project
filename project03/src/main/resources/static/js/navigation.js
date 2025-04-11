@@ -12,6 +12,9 @@ let movingIndex = 0;
 let eraseCurrentIndex = 0;
 eraseCurrentIndex = 0;
 routeCoords = [];
+let eraseInterval = null;
+let startAddress = "";
+let endAddress = "";
 
 // 출발지 설정
 function setStartPlace() {
@@ -127,10 +130,33 @@ let totalDuration = 0;
 let remainingDistance = 0;
 let remainingTime = 0;
 
+// 🚀 [추가] 백엔드로 경로 데이터 전송
+async function sendRouteToBackend(start, end, distance, duration) {
+  try {
+    const response = await fetch('/api/routes/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        start: { placeName: start, address: start }, // start 필드 맞추기
+        end: { placeName: end, address: end },       // end 필드 맞추기
+        distance,
+        duration
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("경로 정보가 성공적으로 저장되었습니다.");
+  } catch (error) {
+    console.error("백엔드 저장 오류:", error);
+  }
+}
+
 // 경로 찾기
 async function findRoute() {
-  const startAddress = document.getElementById("start").value;
-  const endAddress = document.getElementById("end").value;
+  startAddress = document.getElementById("start").value;
+  endAddress = document.getElementById("end").value;
 
   if (!startAddress || !endAddress) {
     alert("출발지와 목적지를 입력하세요!");
@@ -212,6 +238,9 @@ async function findRoute() {
       remainingDistance = totalDistance;
       remainingTime = totalDuration * 60;
 
+      // 🚀 [추가] 경로 정보 백엔드 저장
+            await sendRouteToBackend(startAddress, endAddress, distance, duration);
+
     } else {
       console.error("경로를 찾을 수 없습니다.");
     }
@@ -242,6 +271,8 @@ function startJourney() {
     alert("경로를 먼저 찾으세요!");
     return;
   }
+// 출발지-도착지 표시
+  document.getElementById("placeNames").innerText = `${startAddress} → ${endAddress}`;
 
   document.getElementById("status").textContent = "출발 중...";
   eraseRoute();
@@ -430,8 +461,138 @@ function resetJourney() {
 
   alert("경로가 초기화되었습니다. 새로운 출발지와 도착지를 선택하세요!");
 }
-//  이전경로 불러오기 클릭이벤트 경로 설정
-//  진행률 바 표시
-//  이동 마커 애니메이션 추가해서 실제 이동하는 듯한 느낌
-//  출발지-도착지 이름 표시하기
-//  도착 직전에 알림 효과(예: 10초 남았을 때 "곧 도착합니다!")
+
+// 모달 창 이벤트 (중복 이벤트 해결)
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("previousRoutesModal");
+  const openBtn = document.getElementById("openPreviousRoutesModal");
+  const closeBtn = document.querySelector(".close");
+
+  // 모달 열기
+  openBtn.addEventListener("click", function () {
+    modal.style.display = "block";
+    loadPreviousRoutes(); // 경로 불러오기
+  });
+
+  // 모달 닫기 (X 버튼)
+  closeBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  // 모달 닫기 (바깥 클릭)
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+
+function selectRoute(route) {
+  const geocoder = new kakao.maps.services.Geocoder();
+
+  // 출발지 주소 → 좌표 변환
+  geocoder.addressSearch(route.startAddress, function(startResult, status) {
+    if (status === kakao.maps.services.Status.OK) {
+      const startLatLng = {
+        lat: startResult[0].y,
+        lng: startResult[0].x
+      };
+
+      // 도착지 주소 → 좌표 변환
+      geocoder.addressSearch(route.endAddress, function(endResult, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          const endLatLng = {
+            lat: endResult[0].y,
+            lng: endResult[0].x
+          };
+
+          // 거리 단위 m → km, 시간 초 → 분
+          const distanceKm = route.distance / 1000;
+          const durationMin = Math.round(route.duration / 60);
+
+          // 기존 함수 호출
+          loadPreviousRoute(startLatLng, endLatLng, distanceKm, durationMin, route.startAddress, route.endAddress);
+
+          map.setCenter(new kakao.maps.LatLng(startLatLng.lat, startLatLng.lng));
+
+        } else {
+          alert("도착지 주소를 좌표로 변환하지 못했습니다.");
+        }
+      });
+    } else {
+      alert("출발지 주소를 좌표로 변환하지 못했습니다.");
+    }
+  });
+}
+
+function loadPreviousRoutes() {
+  fetch("/api/routes/previous")
+    .then(response => response.json())
+    .then(routes => {
+      const list = document.getElementById("previousRoutesList");
+      list.innerHTML = "";
+
+      routes.forEach((route) => {
+        const li = document.createElement("li");
+        li.className = "route-item";
+
+        const start = route.startAddress; // 문자열
+        const end = route.endAddress;     // 문자열
+
+        const text = document.createElement("span");
+        text.textContent = `출발지: ${start} → 목적지: ${end}`;
+        text.className = "route-text";
+
+        text.addEventListener("click", () => {
+          // selectRoute에 넘기는 것도 문자열로
+          selectRoute({
+            startAddress: start,
+            endAddress: end,
+            distance: route.distance,
+            duration: route.duration
+          });
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "삭제";
+        deleteBtn.className = "btn-delete";
+        deleteBtn.addEventListener("click", () => deleteRoute(route.id));
+
+        li.appendChild(text);
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+      });
+    })
+    .catch(error => console.error("이전 경로 로드 오류:", error));
+}
+
+
+
+
+
+function deleteRoute(routeId) {
+  const confirmDelete = confirm("정말 삭제하시겠습니까?");
+  if (!confirmDelete) {
+    return; // 취소 누르면 함수 종료
+  }
+
+  fetch(`/api/routes/${routeId}`, {
+    method: "DELETE"
+  })
+    .then(response => {
+      if (response.ok) {
+        alert("경로 삭제 완료!");
+        loadPreviousRoutes(); // 목록 새로고침
+      } else {
+        alert("삭제 실패");
+      }
+    });
+}
+
+function loadPreviousRoute(startLatLng, endLatLng, distanceKm, durationMin, startAddress, endAddress) {
+  // 주소 문자열을 input에 넣어줌
+  document.getElementById("start").value = startAddress;
+  document.getElementById("end").value = endAddress;
+}
+

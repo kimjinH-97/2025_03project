@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class RouteResponseDTO {
-
+    private Long id;
     private String startAddress;  // 출발지 주소
     private String endAddress;    // 도착지 주소
     private double distance;      // 거리 (km)

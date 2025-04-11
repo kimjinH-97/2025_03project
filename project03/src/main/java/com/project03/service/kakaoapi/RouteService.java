@@ -42,6 +42,7 @@ public class RouteService {
         return routeRepository.findAll().stream()
                 .map(route -> new RouteResponseDTO(
 
+                        route.getId(),
                         route.getStartAddress(),
                         route.getEndAddress(),
                         route.getDistance(),
