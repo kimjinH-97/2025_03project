@@ -25,7 +25,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/doLogin")
                         .usernameParameter("userId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/process", true)
+                        .defaultSuccessUrl("/orders/list", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )

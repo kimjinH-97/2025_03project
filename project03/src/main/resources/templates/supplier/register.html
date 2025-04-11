@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>공급자 등록</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/supplier/register.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="padding-top: 80px; font-family: 'Noto Sans KR', sans-serif; font-size: 16px;">
+
+<!-- 상단 고정 메뉴 -->
+<div th:replace="fragments/header :: header"></div>
+
 <div class="section">
     <h2>공급자 등록</h2>
     <form th:action="@{/suppliers/register}" method="post">

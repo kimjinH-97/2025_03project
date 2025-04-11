@@ -1,6 +1,8 @@
 package com.project03.controller.manufacturing;
 
 import com.project03.domain.Order;
+import com.project03.dto.orders.OrderPageRequestDTO;
+import com.project03.dto.orders.OrderPageResponseDTO;
 import com.project03.repository.manufacturing.OrderRepository;
 import com.project03.service.manufacturing.OrderService;
 import com.project03.service.manufacturing.ProductService;
@@ -10,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/orders")
@@ -42,13 +42,41 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
-    // 1. 주문 리스트 보기
+    // 1. 주문 리스트 보기(order/list)
+//    @GetMapping("/list")
+//    public String listOrders(
+//            @RequestParam(required = false) String type,
+//            @RequestParam(required = false) String keyword,
+//            Model model) {
+//
+//        List<Order> orders;
+//
+//        if (type != null && keyword != null && !keyword.isBlank()) {
+//            orders = orderService.searchOrders(type, keyword);
+//        } else {
+//            orders = orderService.getAllOrders();
+//        }
+//
+//        model.addAttribute("orders", orders);
+//        model.addAttribute("type", type);
+//        model.addAttribute("keyword", keyword);
+//        return "orders/list";
+//    }
     @GetMapping("/list")
-    public String listOrders(Model model) {
-        List<Order> orders = orderService.getAllOrders();
-        model.addAttribute("orders", orders);
-        return "orders/list"; // templates/orders/list.html 필요
+    public String listOrders(OrderPageRequestDTO requestDTO, Model model) {
+        OrderPageResponseDTO<Order> responseDTO = orderService.getList(requestDTO);
+
+        // orders 리스트와 responseDTO 둘 다 넘김
+        model.addAttribute("orders", responseDTO.getDtoList());
+        model.addAttribute("responseDTO", responseDTO);
+        model.addAttribute("type", requestDTO.getType());
+        model.addAttribute("keyword", requestDTO.getKeyword());
+
+        return "orders/list";
     }
+
+
+
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
@@ -69,7 +97,7 @@ public class OrderController {
             order.setStatus("준비중");
         }
 
-        // 🔥 주문 등록과 동시에 해당 창고 상태 변경
+        //  주문 등록과 동시에 해당 창고 상태 변경
         Long warehouseId = order.getWarehouse().getId();
         if (warehouseId != null) {
             warehouseService.markAsOrdered(warehouseId); // ← 이걸 WarehouseService에 만들어주자
@@ -78,6 +106,14 @@ public class OrderController {
         orderRepository.save(order);
         return "redirect:/orders/list";
     }
-
+    //  4. 주문 상세 보기
+    @GetMapping("/{id}/detail")
+    public String showOrderDetail(@PathVariable("id") Long id, Model model) {
+        Order order = orderService.findById(id);
+        if (order == null) {
+            return "redirect:/orders/list"; // 없으면 리스트로
+        }
+        model.addAttribute("order", order);
+        return "orders/detail"; // templates/orders/detail.html
+    }
 }
-

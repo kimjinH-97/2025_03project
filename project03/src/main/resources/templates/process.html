@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공정 이동 테스트</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/process.css}">
-
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="padding-top: 80px; font-family: 'Noto Sans KR', sans-serif;">
+
+<div th:replace="fragments/header :: header"></div>
+
 <!-- 제품 공정 이동 섹션 -->
 <div class="section">
     <h2>제품 공정 다음 단계로 이동</h2>
@@ -15,12 +19,10 @@
         <label for="productId">제품 ID:</label>
         <input type="number" id="productId" placeholder="제품 ID를 입력하세요"/>
         <button id="moveBtn" onclick="moveNextStep()">공정 이동</button>
-        <button onclick="cancelProcess()"class="btn btn-danger" >공정 취소</button>
+        <button onclick="cancelProcess()" class="btn btn-danger">공정 취소</button>
         <br>
         <div id="productList"></div>
-
     </div>
-
     <div id="result" class="result-box"></div>
 </div>
 
@@ -31,13 +33,10 @@
         <label for="fromSequence">대상 공정 단계:</label>
         <input type="number" id="fromSequence" placeholder="공정 단계를 입력하세요"/>
     </div>
-
     <div class="button-group">
         <button id="startBtn" class="btn-primary" onclick="startSimulation()">시뮬레이션 시작</button>
         <button id="stopBtn" class="btn-danger" onclick="stopSimulation()" disabled>중지</button>
     </div>
-
-    <!-- 진행률 표시 영역 추가 -->
     <div class="progress-container">
         <div class="progress-header">
             <span>진행 상황</span>
@@ -47,7 +46,6 @@
             <div class="progress-fill" id="progressFill" style="width: 0%"></div>
         </div>
     </div>
-
     <div class="log-container">
         <div class="log-header">
             <h3>공정 이동 로그</h3>
@@ -57,11 +55,11 @@
     </div>
 </div>
 
-<!-- 기타 기능 섹션 - 카드 레이아웃으로 변경 -->
+<!-- 기타 기능 섹션 -->
 <div class="section">
     <h2>기타 기능</h2>
     <div class="card-container">
-        <!-- 제품 등록 카드 -->
+
         <div class="function-card">
             <div class="card-icon">📦</div>
             <h3>제품 등록</h3>
@@ -71,7 +69,6 @@
             </button>
         </div>
 
-        <!-- 창고 이동 카드 -->
         <div class="function-card">
             <div class="card-icon">🚚</div>
             <h3>창고 이동</h3>
@@ -82,7 +79,6 @@
             <div id="warehouseResult" class="card-result"></div>
         </div>
 
-        <!-- 공급자 확인 카드 -->
         <div class="function-card">
             <div class="card-icon">🏭</div>
             <h3>공급자 확인</h3>
@@ -91,7 +87,7 @@
                 공급자 목록 보기
             </button>
         </div>
-        <!-- 주문 등록 카드 -->
+
         <div class="function-card">
             <div class="card-icon">🏭</div>
             <h3>주문 등록</h3>
@@ -100,7 +96,7 @@
                 주문 등록
             </button>
         </div>
-        <!-- 주문 리스트 카드 -->
+
         <div class="function-card">
             <div class="card-icon">🏭</div>
             <h3>제품 주문 리스트</h3>
@@ -109,6 +105,7 @@
                 주문 리스트
             </button>
         </div>
+
     </div>
 </div>
 
