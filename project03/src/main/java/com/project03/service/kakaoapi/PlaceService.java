@@ -2,8 +2,8 @@ package com.project03.service.kakaoapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project03.dto.PlaceDTO;
-import com.project03.dto.RouteDTO;
+import com.project03.dto.kakaoapi.PlaceDTO;
+import com.project03.dto.kakaoapi.RouteDTO;
 import com.project03.entity.Place;
 import com.project03.entity.Route;
 import com.project03.repository.kakaoapi.PlaceRepository;
@@ -115,9 +115,6 @@ public class PlaceService {
                         .longitude(dto.getLongitude())
                         .build()
         ));
-
     }
-
-
 
 }

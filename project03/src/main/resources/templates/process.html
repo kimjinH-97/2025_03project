@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공정 이동 테스트</title>
     <link rel="stylesheet" th:href="@{/css/process.css}">
+
 </head>
 <body>
 <!-- 제품 공정 이동 섹션 -->
@@ -14,7 +15,12 @@
         <label for="productId">제품 ID:</label>
         <input type="number" id="productId" placeholder="제품 ID를 입력하세요"/>
         <button id="moveBtn" onclick="moveNextStep()">공정 이동</button>
+        <button onclick="cancelProcess()"class="btn btn-danger" >공정 취소</button>
+        <br>
+        <div id="productList"></div>
+
     </div>
+
     <div id="result" class="result-box"></div>
 </div>
 
@@ -83,6 +89,24 @@
             <p>원자재 공급업체 정보를 확인합니다.</p>
             <button class="btn-card" onclick="window.location.href='/suppliers/list'">
                 공급자 목록 보기
+            </button>
+        </div>
+        <!-- 주문 등록 카드 -->
+        <div class="function-card">
+            <div class="card-icon">🏭</div>
+            <h3>주문 등록</h3>
+            <p>원자재 공급업체 정보를 확인합니다.</p>
+            <button class="btn-card" onclick="window.location.href='/orders/register'">
+                주문 등록
+            </button>
+        </div>
+        <!-- 주문 리스트 카드 -->
+        <div class="function-card">
+            <div class="card-icon">🏭</div>
+            <h3>제품 주문 리스트</h3>
+            <p>원자재 공급업체 정보를 확인합니다.</p>
+            <button class="btn-card" onclick="window.location.href='/orders/list'">
+                주문 리스트
             </button>
         </div>
     </div>

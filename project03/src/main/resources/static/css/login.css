@@ -1,0 +1,133 @@
+/* 기본 설정 - 모든 요소 크게 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+    font-size: 1.2rem; /* 기본 폰트 크기 증가 */
+}
+
+/* 로그인 컨테이너 - 크게 */
+.login-container {
+    width: 100%;
+    max-width: 600px; /* 컨테이너 크기 증가 */
+    padding: 30px;
+}
+
+/* 로그인 박스 - 크게 */
+.login-box {
+    background-color: white;
+    border-radius: 15px; /* 모서리 둥글기 증가 */
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15); /* 그림자 효과 강화 */
+    padding: 60px 50px; /* 내부 패딩 증가 */
+    transition: transform 0.3s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-5px);
+}
+
+/* 로그인 제목 - 매우 크게 */
+.login-title {
+    text-align: center;
+    margin-bottom: 50px; /* 여백 증가 */
+    font-size: 2.5rem; /* 폰트 크기 증가 */
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* 입력 그룹 - 크게 */
+.input-group {
+    margin-bottom: 30px; /* 여백 증가 */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 15px; /* 여백 증가 */
+    font-size: 1.5rem; /* 폰트 크기 증가 */
+    font-weight: 500;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 20px 25px; /* 패딩 증가 */
+    border: 2px solid #ddd; /* 테두리 두께 증가 */
+    border-radius: 10px; /* 모서리 둥글기 증가 */
+    font-size: 1.5rem; /* 입력 텍스트 크기 증가 */
+    transition: border 0.3s ease;
+    height: 70px; /* 높이 증가 */
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.2); /* 포커스 효과 강화 */
+}
+
+.input-group input::placeholder {
+    color: #bbb;
+    font-size: 1.3rem; /* 플레이스홀더 크기 증가 */
+}
+
+/* 로그인 버튼 - 매우 크게 */
+.login-btn {
+    width: 100%;
+    padding: 25px; /* 패딩 증가 */
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 10px; /* 모서리 둥글기 증가 */
+    font-size: 1.8rem; /* 폰트 크기 증가 */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    height: 80px; /* 높이 증가 */
+}
+
+.login-btn:hover {
+    background-color: #2980b9;
+}
+
+/* 반응형 디자인 - 모바일에서도 크게 유지 */
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .login-box {
+        padding: 40px 30px;
+    }
+
+    .login-title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .input-group label {
+        font-size: 1.3rem;
+    }
+
+    .input-group input {
+        font-size: 1.3rem;
+        height: 60px;
+        padding: 15px 20px;
+    }
+
+    .login-btn {
+        font-size: 1.5rem;
+        height: 70px;
+        padding: 20px;
+    }
+}

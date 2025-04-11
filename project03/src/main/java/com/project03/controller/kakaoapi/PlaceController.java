@@ -1,7 +1,7 @@
 package com.project03.controller.kakaoapi;
 
-import com.project03.dto.PlaceDTO;
-import com.project03.dto.RouteDTO;
+import com.project03.dto.kakaoapi.PlaceDTO;
+import com.project03.dto.kakaoapi.RouteDTO;
 import com.project03.service.kakaoapi.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

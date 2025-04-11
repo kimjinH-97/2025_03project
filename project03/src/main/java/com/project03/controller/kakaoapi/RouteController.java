@@ -1,13 +1,13 @@
 package com.project03.controller.kakaoapi;
 
-import com.project03.dto.RouteDTO;
-import com.project03.dto.RouteResponseDTO;
+import com.project03.dto.kakaoapi.RouteDTO;
 import com.project03.service.kakaoapi.RouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/routes")
@@ -21,20 +21,5 @@ public class RouteController {
         routeService.saveRoute(routeDTO);
         return ResponseEntity.ok("경로 저장 완료");
     }
-
-    @GetMapping("/previous")
-    public ResponseEntity<List<RouteResponseDTO>> getPreviousRoutes() {
-        List<RouteResponseDTO> routes = routeService.getAllRoutes();
-        return ResponseEntity.ok(routes);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRoute(@PathVariable Long id) {
-        boolean deleted = routeService.deleteRouteById(id);
-        if (deleted) {
-            return ResponseEntity.ok("삭제 성공");
-        } else {
-            return ResponseEntity.status(500).body("삭제 실패");
-        }
-    }
 }
+

@@ -71,6 +71,9 @@ function moveNextStep() {
     .then(message => {
         getElement('result').innerText = message;
         addLog(`제품 ID ${productId} 이동 성공: ${message}`);
+
+        // 공정 이동 후 시퀀스 0 리스트 비동기로 갱신
+                refreshProductList();
     })
     .catch(error => {
         const errorMsg = `오류 발생: ${error.message}`;
@@ -78,6 +81,7 @@ function moveNextStep() {
         addLog(errorMsg, true);
     });
 }
+let isProgressCompleteLogged = false; // 진행 완료 로그 출력 여부 플래그
 
 // 공정 시뮬레이션 시작
 function startSimulation() {
@@ -92,6 +96,7 @@ function startSimulation() {
     updateProgress(0);
     clearLogs();
     addLog(`공정 시뮬레이션 시작 (단계 ${from})`);
+    isProgressCompleteLogged = false; // 시뮬 시작할 때 플래그 초기화
 
     getElement('startBtn').disabled = true;
     getElement('stopBtn').disabled = false;
@@ -109,6 +114,13 @@ function startSimulation() {
                     const simResult = getElement('simResult');
                     if (simResult) {
                         simResult.innerHTML = `진행률: ${data.progress}% (${data.movedQuantity || 0}/${data.totalQuantity || 100})`;
+                    }
+                     // 100% 도달 시 로그 1회 출력 + 타이머 정지
+                    if (data.progress === 100 && !isProgressCompleteLogged) {
+                        addLog(`진행 상태: ${data.progress}% 완료`);
+                        isProgressCompleteLogged = true;
+                        stopSimulation(); // 자동 정지
+                        return; // 이후 처리 방지
                     }
                 }
 
@@ -162,3 +174,77 @@ function moveToWarehouse() {
 function openRegister() {
     window.open("/register", "제품 등록", "width=500,height=600");
 }
+
+
+//제품(product)에서 원자재(material)로 공정취소(이동)
+function cancelProcess() {
+    const productId = document.getElementById("productId").value;
+    if (!productId) {
+        alert("제품 ID를 입력하세요.");
+        return;
+    }
+
+    fetch(`/process/cancel/${productId}`, {
+        method: 'POST'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("공정 취소 실패");
+        return response.text();
+    })
+    .then(message => {
+        document.getElementById("result").innerText = message;
+
+        // 비동기 리스트 갱신 추가
+        refreshProductList();
+    })
+    .catch(error => {
+        document.getElementById("result").innerText = error.message;
+    });
+}
+
+
+
+//시퀀스 0인 제품리스트 보여주기.
+function fetchAvailableProducts() {
+    fetch("/process/available-products")
+        .then(response => {
+            if (!response.ok) throw new Error("서버 오류 발생");
+            return response.json();
+        })
+        .then(data => {
+            const productListDiv = document.getElementById("productList");
+            productListDiv.innerHTML = "";
+
+            if (data.length === 0) {
+                productListDiv.innerHTML = "<p>시퀀스 0인 제품이 없습니다.</p>";
+                return;
+            }
+            data.forEach(product => {
+                const div = document.createElement("div");
+                div.className = "product-item";
+                div.innerHTML = `
+                    <span class="badge">#${product.productId}</span>
+                    <span class="product-name">${product.productName}</span>
+            `;
+            productListDiv.appendChild(div);
+            });
+
+        })
+        .catch(error => {
+            console.error("Error fetching products:", error);
+            document.getElementById("productList").innerHTML = "<p>불러오기에 실패했습니다.</p>";
+        });
+}
+
+
+
+function refreshProductList() {
+    fetchAvailableProducts();
+}
+//시퀀스 0보여주는 js (필수) 삭제 x
+document.addEventListener("DOMContentLoaded", function () {
+    fetchAvailableProducts(); // 여기가 핵심!
+});
+
+
+

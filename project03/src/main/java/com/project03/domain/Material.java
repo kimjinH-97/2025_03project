@@ -1,33 +1,62 @@
 package com.project03.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "imageSet")
 public class Material {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long materialId;
-
-    private String materialDescription;
-
+    @Column(length = 255, nullable = false)
     private String materialName;
-
-    private Long materialQuantity;
-
-    private Long materialSize;
+    @Column(length = 255, nullable = false)
+    private String materialQuantity;
+    @Column(length = 255)
+    private String materialSize;
+    @Column(length = 255)
+    private String materialDescription;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
+
+
+    public void change(String materialName, String materialQuantity,String materialSize, String materialDescription){
+        this.materialName = materialName;
+        this.materialQuantity = materialQuantity;
+        this.materialSize = materialSize;
+        this.materialDescription = materialDescription;
+    }
+
+    @OneToMany(mappedBy = "material", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<MaterialImage> imageSet = new HashSet<>();
+
+    public void addImage(String uuid, String fileName){
+        MaterialImage materialImage = MaterialImage.builder()
+                .MaterialUuid(uuid)
+                .MaterialFileName(fileName)
+                .material(this)
+                .MaterialOrd(imageSet.size())
+                .build();
+        imageSet.add(materialImage);
+    }
+
+    public void clearImages(){
+        imageSet.forEach(materialImage -> materialImage.changeMaterial(null));
+        this.imageSet.clear();
+    }
 
 }
 

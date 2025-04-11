@@ -7,6 +7,7 @@ import com.project03.repository.manufacturing.MaterialRepository;
 import com.project03.repository.manufacturing.ProcessStepRepository;
 import com.project03.repository.manufacturing.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -72,7 +73,7 @@ public class ProductService {
         product.setMaterialDescription(material.getMaterialDescription()); // 등급 복사
         product.setManufactureDate(new Date());
         product.setDescription("등록된 제품입니다.");
-        product.setQuantity(material.getMaterialQuantity());
+        product.setQuantity(Long.valueOf(material.getMaterialQuantity()));
 
         // 공정 0단계 설정
         ProcessStep zeroStep = processStepRepository.findBySequence(0L)
@@ -83,4 +84,45 @@ public class ProductService {
         materialRepository.delete(material); // 또는 수량 차감
     }
 
+    @Transactional
+    public boolean cancelProductToMaterial(Long productId) {
+        try {
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new RuntimeException("해당 제품을 찾을 수 없습니다."));
+
+            // 시퀀스가 0단계가 아닐 경우 처리 중단
+            if (product.getProcessStep() == null || product.getProcessStep().getSequence() != 0) {
+                return false;
+            }
+
+            // 제품을 원자재로 복구
+            Material material = new Material();
+            material.setMaterialName(product.getProductName());
+            material.setMaterialDescription(product.getMaterialDescription());
+            material.setMaterialQuantity(String.valueOf(product.getQuantity()));
+
+            // 사이즈 자동 설정
+            Long size = switch (product.getMaterialDescription()) {
+                case "소형" -> 100L;
+                case "중형" -> 500L;
+                case "대형" -> 1000L;
+                default -> 0L;
+            };
+            material.setMaterialSize(String.valueOf(size));
+
+            materialRepository.save(material);
+            productRepository.delete(product);
+
+            return true;
+        } catch (Exception e) {
+            // 콘솔에 상세 에러 로그 출력
+            System.err.println("공정 취소 중 예외 발생: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
+
+
