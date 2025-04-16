@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원자재 수정</title>
+
+    <!--  공통 헤더 메뉴용 CSS -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+
+    <!-- 원래 쓰던 스타일 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/material/material_modify.css}">
+</head>
+
+<body class="bg-light" style="padding-top: 80px;">
+<!-- 상단 고정 메뉴 삽입 -->
+<div th:replace="fragments/header :: header"></div>
+
+<div layout:fragment="content">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">원자재 정보 수정</h4>
+                    </div>
+
+                    <form th:action="@{/material/MaterialModify}" method="post" id="f1" class="p-4">
+                        <input type="hidden" name="materialId" th:value="${dto.materialId}">
+
+                        <div class="mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">원자재번호</label>
+                                    <input type="text" name="materialId" class="form-control" th:value="${dto.materialId}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">원자재명</label>
+                                    <input type="text" name="materialName" class="form-control" th:value="${dto.materialName}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">수량</label>
+                                    <input type="text" name="materialQuantity" class="form-control" th:value="${dto.materialQuantity}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">크기</label>
+                                    <input type="text" name="materialSize" class="form-control" th:value="${dto.materialSize}">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">비고</label>
+                                    <input type="text" name="materialDescription" class="form-control" th:value="${dto.materialDescription}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 이미지 업로드 -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">사진</h5>
+                                <button type="button" class="btn btn-outline-primary uploadFileBtn">
+                                    <i class="bi bi-plus-lg"></i> 추가
+                                </button>
+                            </div>
+
+                            <div class="uploadHidden"></div>
+                            <div class="uploadResult row g-3">
+                                <th:block th:each="fileName : ${dto.materialFileNames}">
+                                    <div class="col-md-4" th:with="arr=${fileName.split('_')}">
+                                        <div class="card h-100">
+                                            <div class="card-img-top position-relative">
+                                                <img th:src="|/view/s_${fileName}|"
+                                                     th:data-src="${fileName}"
+                                                     class="img-fluid rounded-top"
+                                                     style="height: 200px; object-fit: cover;">
+                                                <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+                                                        th:onclick="removeFile([[${arr[0]}]], [[${arr[1]}]], this)">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </div>
+                                            <div class="card-footer bg-transparent">
+                                                <small class="text-muted text-truncate d-block" th:text="${arr[1]}"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+
+                        <!-- 버튼 -->
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-outline-secondary listBtn">
+                                <i class="bi bi-list-ul"></i> 목록
+                            </button>
+                            <button type="button" class="btn btn-danger removeBtn">
+                                <i class="bi bi-trash"></i> 삭제
+                            </button>
+                            <button type="button" class="btn btn-primary modBtn">
+                                <i class="bi bi-check-lg"></i> 수정
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 이미지 업로드 모달 -->
+    <div class="modal fade uploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">사진 추가</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">파일 선택</label>
+                        <input type="file" name="files" class="form-control" multiple accept="image/*">
+                    </div>
+                    <div class="alert alert-info">
+                        <small>여러 파일을 동시에 선택할 수 있습니다.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary closeUploadBtn" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> 닫기
+                    </button>
+                    <button type="button" class="btn btn-primary uploadBtn">
+                        <i class="bi bi-upload"></i> 업로드
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script 변수 바인딩 -->
+<script th:inline="javascript">
+    let errors = [[${errors}]]
+    let link = [[${materialPageRequestDTO.getLink()}]];
+</script>
+
+<!-- Bootstrap & 기타 스크립트 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/material/materialUpload.js"></script>
+<script th:src="@{/js/material/material_modify.js}"></script>
+</body>
+</html>

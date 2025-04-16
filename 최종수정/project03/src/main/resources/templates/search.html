@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>장소 검색</title>
+  <link rel="stylesheet" th:href="@{/css/search.css}">
+</head>
+<body>
+<div class="container">
+  <!-- 검색창 -->
+  <div class="search-box">
+    <form id="searchForm">
+      <input type="text" id="query" name="query" placeholder="장소를 검색" required>
+      <button type="submit">검색</button>
+    </form>
+  </div>
+  <!-- 출발지 및 목적지 입력란 -->
+  <div class="location-inputs">
+    <input type="text" id="start" placeholder="출발지를 입력하세요" required>
+    <input type="text" id="end" placeholder="목적지를 입력하세요" required>
+    <button id="findRouteBtn" onclick="findRoute()">경로 추천</button>
+    <div id="routeInfo" class="route-info"
+         placeholder="경로 정보를 여기에 출력합니다" readonly></div> <!-- 경로 정보 텍스트 박스 -->
+  </div>
+
+  <!-- 검색 결과 + 지도 -->
+  <div class="map-container">
+    <!-- 검색 결과 목록 -->
+    <div class="search-results">
+      <ul id="places-list"></ul>
+    </div>
+    <!-- 지도 -->
+    <div id="map"></div>
+  </div>
+
+  <!-- 장소 정보 표시 창 -->
+  <div class="place-info" id="place_info">
+    <div class="close-btn" onclick="closePlaceInfo()">×</div>
+    <h3 id="info_name">장소 정보</h3>
+    <p><strong>주소:</strong> <span id="info_address">주소 정보 없음</span></p>
+    <p><strong>도로명 주소:</strong> <span id="info_road_address">도로명 주소 없음</span></p>
+    <button id="setStartBtn" onclick="setStartPlace()">출발지 설정</button>
+    <button id="setEndBtn" onclick="setEndPlace()">목적지 설정</button>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3e305e2eebc1e0947c8ad966fe6d9f31&libraries=services"></script>
+<script src="/js/search.js"></script>
+<script src="/js/navigation.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 70px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    padding: 50px;
+}
+
+.page-header h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #343a40;
+    font-size: 2.4rem;
+}
+
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.1rem;
+}
+
+.table-section th,
+.table-section td {
+    padding: 18px 20px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table-section th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
+.table-section tr:nth-child(even) {
+    background-color: #f1f3f5;
+}
+
+/* 마우스 hover 효과 제거 */
+.table-section tr:hover {
+    background-color: inherit;
+}
+
+.button-area {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.button-area button {
+    background-color: #28a745;
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.button-area button:hover {
+    background-color: #218838;
+}

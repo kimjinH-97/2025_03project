@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원자재 관리 시스템</title>
+
+    <!-- CSS 스타일 -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/material/materialList.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body style="padding-top: 80px;">
+
+<!--  상단 고정 메뉴 -->
+<div th:replace="fragments/header :: header"></div>
+
+<div layout:fragment="content">
+    <div class="material-container-large">
+        <div class="header-section">
+            <h1 class="page-title-large">원자재 재고 관리</h1>
+            <div class="header-actions">
+                <button class="btn-register-large" onclick="window.location.href='/material/MaterialRegister'">
+                    <i class="icon-add"></i> 신규 원자재 등록
+                </button>
+            </div>
+        </div>
+
+        <!-- 검색창 -->
+        <div class="search-section-large">
+            <form action="/material/MaterialList" method="get">
+                <div class="search-box-large">
+                    <select class="search-select-large" name="type">
+                        <option value="ns" th:selected="${materialPageRequestDTO.type == 'ns'}">전체 검색</option>
+                        <option value="n" th:selected="${materialPageRequestDTO.type == 'n'}">원자재명</option>
+                        <option value="s" th:selected="${materialPageRequestDTO.type == 's'}">크기</option>
+                    </select>
+                    <input type="text" class="search-input-large" name="keyword"
+                           th:value="${materialPageRequestDTO.keyword}"
+                           placeholder="원자재명 또는 크기를 입력하세요">
+                    <div class="search-buttons-large">
+                        <button class="btn-search-large" type="submit">
+                            <i class="icon-search"></i> 검색 실행
+                        </button>
+                        <button class="btn-clear-large" type="button">
+                            <i class="icon-clear"></i> 조건 초기화
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 테이블 -->
+        <div class="table-section-large">
+            <div class="table-info">
+                <span class="total-count-large">총 <span th:text="${responseDTO.total}">0</span>건의 원자재가 조회되었습니다</span>
+            </div>
+
+            <div class="table-wrapper-large">
+                <table class="material-table-large">
+                    <thead>
+                    <tr>
+                        <th width="15%">원자재 ID</th>
+                        <th width="25%">원자재 명칭</th>
+                        <th width="15%">재고 수량</th>
+                        <th width="15%">크기(M)</th>
+                        <th width="30%">상세 설명</th>
+                    </tr>
+                    </thead>
+                    <tbody th:with="link = ${materialPageRequestDTO.getLink()}">
+                    <tr th:each="dto:${responseDTO.dtoList}">
+                        <td><a th:href="|@{/material/MaterialModify(materialId=${dto.materialId})}&${link}|" class="material-id-large">MAT-[[${dto.materialId}]]</a></td>
+                        <td>[[${dto.materialName}]]</td>
+                        <td class="text-center-large">[[${dto.materialQuantity}]] 개</td>
+                        <td class="text-center-large">[[${dto.materialSize}]] M</td>
+                        <td class="text-ellipsis-large">[[${dto.materialDescription}]]</td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(responseDTO.dtoList)}">
+                        <td colspan="5" class="no-data-large">등록된 원자재 정보가 없습니다. 신규 등록 버튼을 클릭해 주세요.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination-section-large">
+                <ul class="pagination-large">
+                    <li class="page-item-large prev" th:if="${responseDTO.prev}">
+                        <a class="page-link-large" th:data-num="${responseDTO.start -1}">
+                            <i class="icon-prev"></i> 이전
+                        </a>
+                    </li>
+                    <th:block th:each="i : ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li th:class="${responseDTO.page == i} ? 'page-item-large active' : 'page-item-large'">
+                            <a class="page-link-large" th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item-large next" th:if="${responseDTO.next}">
+                        <a class="page-link-large" th:data-num="${responseDTO.end + 1}">
+                            다음 <i class="icon-next"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/material/materialList.js"></script>
+</body>
+</html>
