@@ -1,0 +1,29 @@
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 1000;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.menu-bar {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.menu-bar a {
+  color: #333;
+  font-weight: 600;
+  text-decoration: none;
+}
+.menu-bar a:hover {
+  color: #007bff;
+}

@@ -172,7 +172,15 @@ function moveToWarehouse() {
 
 // 제품 등록 창 열기
 function openRegister() {
-    window.open("/register", "제품 등록", "width=500,height=600");
+  const width = 500;
+  const height = 600;
+  const screenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+  const screenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+
+  const left = screenLeft + (window.innerWidth / 2) + 100 - (width / 2); // 살짝 오른쪽
+  const top = screenTop + (window.innerHeight / 2) - (height / 2); // 수직 정중앙
+
+  window.open("/products/register", "제품 등록", `width=${width},height=${height},top=${top},left=${left}`);
 }
 
 

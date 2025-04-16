@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>원자재 관리 시스템</title>
+
+    <!-- CSS 스타일 -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/material/materialList.css}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="padding-top: 80px;">
+
+<!--  상단 고정 메뉴 -->
+<div th:replace="fragments/header :: header"></div>
+
 <div layout:fragment="content">
     <div class="material-container-large">
         <div class="header-section">
@@ -19,6 +26,7 @@
             </div>
         </div>
 
+        <!-- 검색창 -->
         <div class="search-section-large">
             <form action="/material/MaterialList" method="get">
                 <div class="search-box-large">
@@ -42,6 +50,7 @@
             </form>
         </div>
 
+        <!-- 테이블 -->
         <div class="table-section-large">
             <div class="table-info">
                 <span class="total-count-large">총 <span th:text="${responseDTO.total}">0</span>건의 원자재가 조회되었습니다</span>
@@ -73,6 +82,7 @@
                 </table>
             </div>
 
+            <!-- 페이지네이션 -->
             <div class="pagination-section-large">
                 <ul class="pagination-large">
                     <li class="page-item-large prev" th:if="${responseDTO.prev}">
@@ -95,6 +105,7 @@
         </div>
     </div>
 </div>
+
 <script src="/js/material/materialList.js"></script>
 </body>
 </html>

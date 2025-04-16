@@ -1,5 +1,6 @@
 package com.project03.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project03.entity.Route;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,6 +34,8 @@ public class Order {
 
     private LocalDateTime orderDate; // 주문 생성일
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt; // 상태 변경 시간 (상태가 바뀔 때마다 이 필드 업데이트)
+
 }
 

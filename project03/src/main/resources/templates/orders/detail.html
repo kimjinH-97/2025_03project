@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 경로 보기</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body style="padding-top: 80px; font-family: 'Noto Sans KR', sans-serif; font-size: 16px;">
+
+<!-- 상단 메뉴 -->
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <!-- 주문 상세 정보 -->
+    <div class="section">
+        <h1>주문 상세 정보</h1>
+        <ul>
+            <li><strong>주문 ID:</strong> <span id="orderId" th:text="${order.id}"></span></li>
+            <li><strong>제품명:</strong> <span th:text="${order.warehouse.productName}"></span></li>
+            <li><strong>경로:</strong> <span th:text="${order.route.startAddress + ' → ' + order.route.endAddress}"></span></li>
+            <li><strong>상태:</strong> <span id="State" th:text="${order.status}"></span></li>
+            <li><strong>등록 시간:</strong> <span th:text="${#temporals.format(order.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></li>
+        </ul>
+        <a href="/orders/list">← 주문 리스트로 돌아가기</a>
+    </div>
+
+    <!-- 📌 반드시 JS에서 접근 가능한 주소 input (숨김 처리) -->
+    <input type="hidden" id="start" th:value="${order.route.startAddress}" />
+    <input type="hidden" id="end" th:value="${order.route.endAddress}" />
+
+    <!-- 경로 출력 정보 -->
+    <div class="location-inputs">
+        <div id="routeInfo" style="margin-top: 10px;"></div>
+        <div id="placeNames" style="font-weight: bold; margin-top: 10px;"></div>
+        <div id="routeInfoDetails" class="route-info-details" style="margin-top: 10px; white-space: pre-wrap;"></div>
+    </div>
+
+    <!-- 상태바 + 버튼 -->
+    <div class="status-bar" style="margin-top: 20px;">
+        <div>배송 상태: <span id="status">대기중</span></div>
+
+        <button id="startButton" class="start-btn"
+                th:onclick="'updateOrderStatus(' + ${order.id} + ', \'배송중\')'">배송 시작</button>
+        <button class="start-btn" id="pauseButton"
+                th:onclick="'updateOrderStatus(' + ${order.id} + ', \'일시중지\')'">중지</button>
+        <button class="start-btn" id="cancelButton"
+                th:onclick="'updateOrderStatus(' + ${order.id} + ', \'준비중\')'">취소</button>
+    </div>
+
+    <!-- 지도 -->
+    <div id="map" style="width:100%; height:600px; border-radius:12px; margin-top: 20px;"></div>
+</div>
+
+<!-- 지도 SDK 및 JS 연결 -->
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=3e305e2eebc1e0947c8ad966fe6d9f31&libraries=services"></script>
+<script src="/js/detail.js"></script>
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        const id = document.getElementById("orderId")?.textContent;
+        console.log("💡 HTML에 실제 orderId는:", id);
+    });
+</script>
+</body>
+</html>

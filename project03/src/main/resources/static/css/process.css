@@ -1,235 +1,289 @@
-\/* 기본 스타일 */
- body {
-     font-family: 'Noto Sans KR', sans-serif;
-     background-color: #f8f9fa;
-     color: #333;
-     line-height: 1.6;
-     padding: 20px;
- }
+/* 개선된 공정 페이지 스타일: 원자재 스타일 통일 적용 + 배치 가독성 향상 + 제품 리스트 줄바꿈 */
 
- .section {
-     background: white;
-     border-radius: 10px;
-     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-     padding: 25px;
-     margin-bottom: 30px;
- }
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+    font-size: 16px;
+    padding: 40px 30px;
+    margin: 0;
+}
 
- h2 {
-     color: #2c3e50;
-     margin-bottom: 20px;
-     padding-bottom: 10px;
-     border-bottom: 2px solid #f0f0f0;
- }
+.material-container-large {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
- /* 입력 그룹 스타일 */
- .input-group {
-     margin-bottom: 20px;
- }
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e3e7;
+}
 
- .input-group label {
-     display: block;
-     margin-bottom: 8px;
-     font-weight: 500;
- }
+.page-title-large {
+    font-size: 32px;
+    font-weight: 600;
+    color: #2c3e50;
+}
 
- .input-group input {
-     width: 100%;
-     max-width: 300px;
-     padding: 10px 15px;
-     border: 1px solid #ddd;
-     border-radius: 6px;
-     font-size: 1rem;
- }
+.top-actions {
+    display: flex;
+    gap: 12px;
+}
 
- /* 버튼 스타일 */
- .button-group {
-     display: flex;
-     gap: 10px;
-     margin: 20px 0;
- }
+.btn-card.small {
+    background-color: #9b59b6;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
 
- button {
-     padding: 10px 20px;
-     border: none;
-     border-radius: 6px;
-     cursor: pointer;
-     font-weight: 500;
-     transition: all 0.3s;
- }
+.btn-card.small:hover {
+    background-color: #8e44ad;
+}
 
- .btn-primary {
-     background-color: #3498db;
-     color: white;
- }
+.section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 40px;
+}
 
- .btn-primary:hover {
-     background-color: #2980b9;
- }
+h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e3e7;
+    padding-bottom: 10px;
+}
 
- .btn-danger {
-     background-color: #e74c3c;
-     color: white;
- }
+.input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
- .btn-danger:hover {
-     background-color: #c0392b;
- }
+.input-row label {
+    min-width: 140px;
+    font-weight: 500;
+    font-size: 16px;
+}
 
- .btn-secondary {
-     background-color: #95a5a6;
-     color: white;
- }
+.input-row input {
+    width: 33%;
+    padding: 12px 20px;
+    border: 1px solid #d1d7dc;
+    border-radius: 6px;
+    font-size: 16px;
+}
 
- .btn-secondary:hover {
-     background-color: #7f8c8d;
- }
+#productList {
+  display: flex;
+  flex-wrap: nowrap; /* 줄바꿈 X */
+  overflow-x: auto; /* 가로 스크롤 허용 */
+  gap: 10px;
+  padding: 5px 0;
+  margin-top: 10px;
+}
 
- /* 진행률 바 스타일 */
- .progress-container {
-     margin: 25px 0;
- }
-
- .progress-header {
-     display: flex;
-     justify-content: space-between;
-     margin-bottom: 8px;
- }
-
- .progress-bar {
-     height: 20px;
-     background-color: #ecf0f1;
-     border-radius: 10px;
-     overflow: hidden;
- }
-
- .progress-fill {
-     height: 100%;
-     background: linear-gradient(90deg, #3498db, #2ecc71);
-     border-radius: 10px;
-     transition: width 0.5s ease;
- }
-
- /* 로그 영역 스타일 */
- .log-container {
-     margin-top: 30px;
- }
-
- .log-header {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     margin-bottom: 15px;
- }
-
- .log-list {
-     max-height: 300px;
-     overflow-y: auto;
-     border: 1px solid #eee;
-     border-radius: 6px;
-     padding: 15px;
-     list-style-type: none;
- }
-
- .log-list li {
-     padding: 8px 0;
-     border-bottom: 1px dashed #eee;
-     font-family: 'Courier New', monospace;
- }
-
- /* 카드 레이아웃 스타일 */
- .card-container {
-     display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-     gap: 24px; /* 여백 살짝 확대 */
-     margin-top: 20px;
- }
-
- .function-card {
-     background: white;
-     border-radius: 10px;
-     padding: 20px;
-     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-     transition: transform 0.3s;
- }
-
- .function-card:hover {
-     transform: translateY(-5px);
- }
-
- .card-icon {
-     font-size: 2.5rem; /* 좀 더 강조된 아이콘 */
-     margin-bottom: 10px;
- }
-
- .function-card p {
-     margin-bottom: 10px;
-     color: #555;
- }
-
- .btn-card {
-     width: 100%;
-     background-color: #9b59b6;
-     color: white;
-     margin-top: 15px;
- }
-
- .btn-card:hover {
-     background-color: #8e44ad;
- }
-
- .card-result {
-     margin-top: 10px;
-     padding: 10px;
-     background-color: #f8f9fa;
-     border-radius: 5px;
-     font-size: 0.9rem;
- }
-
- /* 반응형 디자인 */
- @media (max-width: 768px) {
-     .button-group {
-         flex-direction: column;
-     }
-
-     button {
-         width: 100%;
-     }
-
-     .input-group input {
-         max-width: 100%;
-     }
-
-     .btn-card {
-         margin-top: 10px;
-     }
- }
-
- /* 시퀀스가 0인 리스트 css*/
- .product-item {
-     background-color: #ffffff;
-     border-radius: 6px;
-     padding: 10px 15px;
-     margin-bottom: 10px;
-     display: flex;
-     align-items: center;
-     gap: 12px;
-
- }
+#productList .product-item {
+  background-color: #3498db;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  flex: 0 0 auto; /* 크기 고정 */
+}
 
 
- .badge {
-     background-color: #3498db;
-     color: white;
-     padding: 4px 10px;
-     border-radius: 4px;
-     font-size: 0.85rem;
-     font-weight: 600;
- }
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
 
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-size: 16px;
+}
 
- .product-name {
-     font-size: 1rem;
-     color: #333;
-     font-weight: 600;
- }
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+.progress-container {
+    margin: 30px 0;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.log-container {
+    margin-top: 40px;
+}
+
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.log-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #e0e3e7;
+    border-radius: 6px;
+    padding: 20px;
+    list-style-type: none;
+    background-color: #fff;
+}
+
+.log-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #dcdcdc;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 25px;
+}
+
+.function-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+}
+
+.function-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.function-card p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.btn-card {
+    width: 100%;
+    background-color: #9b59b6;
+    color: white;
+    margin-top: 15px;
+    padding: 12px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-card:hover {
+    background-color: #8e44ad;
+}
+
+.card-result {
+    margin-top: 12px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .input-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .input-row input {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .btn-card {
+        margin-top: 10px;
+    }
+
+    #productList {
+        flex-direction: column;
+    }
+}

@@ -1,8 +1,9 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: #f9f9f9;
-    padding: 40px;
-    font-size: 18px;
+    padding: 20px;
+    font-size: 16px;
+    margin: 0;
 }
 
 h1, h2 {
@@ -10,14 +11,18 @@ h1, h2 {
     margin-bottom: 30px;
 }
 
-form {
+.section {
     background-color: white;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+form {
     max-width: 700px;
     margin: auto;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 label {
@@ -25,15 +30,14 @@ label {
     margin-top: 20px;
     margin-bottom: 8px;
     font-weight: 600;
-    font-size: 18px;
 }
 
 input[type="text"],
 input[type="email"],
 select {
     width: 100%;
-    padding: 14px;
-    font-size: 17px;
+    padding: 12px;
+    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
@@ -41,8 +45,8 @@ select {
 
 button {
     margin-top: 30px;
-    padding: 14px 28px;
-    font-size: 18px;
+    padding: 12px 24px;
+    font-size: 16px;
     background-color: #3498db;
     color: white;
     border: none;
@@ -55,16 +59,17 @@ button:hover {
     background-color: #2980b9;
 }
 
-/* 테이블 스타일 */
+.table-section {
+    margin-top: 30px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 17px;
     background-color: white;
-    margin-top: 30px;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
@@ -76,16 +81,14 @@ th, td {
 th {
     background-color: #ecf0f1;
     font-weight: 700;
-    font-size: 18px;
 }
 
-/* 상태 스타일 */
 .status {
     font-weight: bold;
     padding: 8px 16px;
     border-radius: 8px;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .status.processing {
@@ -102,4 +105,76 @@ th {
 
 .status.cancelled {
     color: #e74c3c;
+}
+
+tr.clickable {
+    cursor: pointer;
+}
+
+tr.clickable:hover {
+    background-color: #f0f0f0;
+}
+
+.product-link {
+    color: #3498db;
+    text-decoration: underline;
+    cursor: pointer;
+}
+/* 페이징 CSS */
+.pagination {
+  margin-top: 30px;
+  text-align: center;
+}
+.pagination ul {
+  display: inline-block;
+  padding-left: 0;
+  margin: 0;
+}
+.pagination li {
+  display: inline;
+  margin: 0 5px;
+}
+.pagination a {
+  color: #007bff;
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.pagination .active a {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+/* 주문등록 버튼 */
+.btn-register {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-register:hover {
+    background-color: #45a049;
+}
+
+/*해더에 있는 상태바 드롭다운css */
+th select {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;         /* 옆 th와 동일하게 */
+    color: #000;
+    padding: 0;
+    /* 아래 줄 주석 처리하면 기본 화살표 다시 나타남 */
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+}
+
+th select:focus {
+    outline: none;
 }

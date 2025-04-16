@@ -1,10 +1,6 @@
 package com.project03.controller.kakaoapi;
 
-<<<<<<< HEAD
 import com.project03.dto.kakaoapi.RouteDTO;
-=======
-import com.project03.dto.RouteDTO;
->>>>>>> eaf74e1e42fecc5340d4e4755cdb759bf43ef747
 import com.project03.service.kakaoapi.RouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

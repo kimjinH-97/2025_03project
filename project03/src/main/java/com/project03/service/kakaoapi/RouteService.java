@@ -1,12 +1,7 @@
 package com.project03.service.kakaoapi;
 
-<<<<<<< HEAD
 import com.project03.dto.kakaoapi.PlaceDTO;
 import com.project03.dto.kakaoapi.RouteDTO;
-=======
-import com.project03.dto.PlaceDTO;
-import com.project03.dto.RouteDTO;
->>>>>>> eaf74e1e42fecc5340d4e4755cdb759bf43ef747
 import com.project03.entity.Place;
 import com.project03.entity.Route;
 import com.project03.repository.kakaoapi.PlaceRepository;

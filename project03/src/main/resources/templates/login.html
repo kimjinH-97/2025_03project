@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>대형 로그인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/login.css}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="login-container">
+    <div class="login-left full-bg">
+        <div class="overlay-text">
+            <h2>우리 시스템에 오신 것을 환영합니다</h2>
+            <p>효율적인 관리와 제조 공정 통합 플랫폼</p>
+        </div>
+    </div>
     <div class="login-box">
         <h1 class="login-title">로그인</h1>
         <form method="post" action="/doLogin" class="login-form">
