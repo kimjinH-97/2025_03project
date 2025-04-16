@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    // CamelCase로 수정 (필드 경로 기준)
+    //필드 경로 기준
     Page<Order> findByWarehouseProductNameContaining(String keyword, Pageable pageable);
 
     Page<Order> findByRouteStartAddressContainingOrRouteEndAddressContaining(String keyword1, String keyword2, Pageable pageable);
 
     Page<Order> findByStatusContaining(String keyword, Pageable pageable);
 
-    // 단순 리스트용
+    //단순 리스트용
     List<Order> findByWarehouseProductNameContaining(String keyword);
 
     List<Order> findByRouteStartAddressContainingOrRouteEndAddressContaining(String keyword1, String keyword2);

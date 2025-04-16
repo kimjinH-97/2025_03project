@@ -17,11 +17,11 @@ public class RouteService {
 
     @Transactional
     public void saveRoute(RouteDTO request) {
-        // 🔹 출발지 & 목적지 저장 (중복 방지)
+        //출발지 or 목적지 저장 +중복 방지
         Place start = findOrCreatePlace(request.getStart());
         Place end = findOrCreatePlace(request.getEnd());
 
-        // 🔹 경로 저장
+        // 경로 저장
         Route route = Route.builder()
                 .startAddress(start.getAddress())
                 .endAddress(end.getAddress())

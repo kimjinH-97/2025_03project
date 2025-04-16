@@ -166,13 +166,10 @@ th select {
     border: none;
     background: transparent;
     font-size: 14px;
-    font-weight: 600;         /* 옆 th와 동일하게 */
+    font-weight: 600;
     color: #000;
     padding: 0;
-    /* 아래 줄 주석 처리하면 기본 화살표 다시 나타남 */
-    /* appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none; */
+
 }
 
 th select:focus {

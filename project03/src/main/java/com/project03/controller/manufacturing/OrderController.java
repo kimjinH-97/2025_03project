@@ -46,26 +46,7 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
-    // 1. 주문 리스트 보기(order/list)
-//    @GetMapping("/list")
-//    public String listOrders(
-//            @RequestParam(required = false) String type,
-//            @RequestParam(required = false) String keyword,
-//            Model model) {
-//
-//        List<Order> orders;
-//
-//        if (type != null && keyword != null && !keyword.isBlank()) {
-//            orders = orderService.searchOrders(type, keyword);
-//        } else {
-//            orders = orderService.getAllOrders();
-//        }
-//
-//        model.addAttribute("orders", orders);
-//        model.addAttribute("type", type);
-//        model.addAttribute("keyword", keyword);
-//        return "orders/list";
-//    }
+
     @GetMapping("/list")
     public String listOrders(OrderPageRequestDTO requestDTO, Model model) {
         OrderPageResponseDTO<Order> responseDTO = orderService.getList(requestDTO);

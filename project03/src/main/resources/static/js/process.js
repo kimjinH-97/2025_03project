@@ -95,7 +95,7 @@ function startSimulation() {
     if (simTimer) clearInterval(simTimer);
     updateProgress(0);
     clearLogs();
-    addLog(`공정 시뮬레이션 시작 (단계 ${from})`);
+    addLog(`공정 시작 (단계 ${from})`);
     isProgressCompleteLogged = false; // 시뮬 시작할 때 플래그 초기화
 
     getElement('startBtn').disabled = true;
@@ -145,7 +145,7 @@ function stopSimulation() {
     if (simTimer) {
         clearInterval(simTimer);
         simTimer = null;
-        addLog("공정 시뮬레이션 중지");
+        addLog("공정 중지");
     }
     getElement('startBtn').disabled = false;
     getElement('stopBtn').disabled = true;

@@ -21,7 +21,7 @@ function registerProduct() {
     .then(message => {
         result.innerText = message;
 
-        //  등록 성공 후 부모 창 갱신 + 현재 창 닫기
+        //  등록 성공후 창 갱신 + 현재 창 닫기
         if (window.opener && typeof window.opener.refreshProductList === 'function') {
             window.opener.refreshProductList();
         }

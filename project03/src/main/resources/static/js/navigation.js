@@ -76,7 +76,7 @@ function geocodeAddress(address) {
   });
 }
 
-// 🚀 [추가] 백엔드로 경로 데이터 전송
+// 백엔드로 경로 데이터 전송
 async function sendRouteToBackend(start, end, distance, duration) {
   try {
     const response = await fetch('/api/routes/save', {
@@ -100,7 +100,7 @@ async function sendRouteToBackend(start, end, distance, duration) {
 }
 
 
-// 🛣 경로 찾기
+// 경로 찾기
 async function findRoute() {
   const startAddress = document.getElementById("start").value;
   const endAddress = document.getElementById("end").value;
@@ -153,7 +153,7 @@ async function findRoute() {
 
       document.getElementById("routeInfo").innerHTML = `경로 정보:<br>거리: ${distance} km<br>이동 시간: ${Math.floor(duration)}분`;
 
-      // 🚀 [추가] 경로 정보 백엔드 저장
+      // 경로 정보 백엔드 저장
       await sendRouteToBackend(startAddress, endAddress, distance, duration);
 
     } else {

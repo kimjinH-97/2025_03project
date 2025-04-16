@@ -15,7 +15,6 @@ public class OrderPageRequestDTO {
 
     private String status;        // 주문 상태 필터
 
-    // Spring Data Pageable 객체로 변환
     public Pageable getPageable(String... props) {
         return PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());
     }

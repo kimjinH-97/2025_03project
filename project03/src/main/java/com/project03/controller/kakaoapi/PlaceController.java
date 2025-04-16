@@ -30,7 +30,7 @@ public class PlaceController {
         return ResponseEntity.ok(placeService.searchPlaces(query));
     }
 
-    // 🔹 출발지 & 목적지 저장
+    // 출발지 & 목적지 저장
     @PostMapping("/saveRoute")
     @ResponseBody
     public ResponseEntity<String> saveRoute(@RequestBody RouteDTO request) {

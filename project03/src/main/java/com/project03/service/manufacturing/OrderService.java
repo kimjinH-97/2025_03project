@@ -72,7 +72,7 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문을 찾을 수 없습니다."));
     }
 
-    //  단순 검색 (비페이징)
+    //  단순 검색
     public List<Order> searchOrders(String type, String keyword) {
         if ("pn".equals(type)) {
             return orderRepository.findByWarehouseProductNameContaining(keyword);

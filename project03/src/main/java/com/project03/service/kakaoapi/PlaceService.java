@@ -31,7 +31,7 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final RouteRepository routeRepository;
 
-    // 🔹 1. 장소 검색 (DB 저장 X)
+    // 장소 검색
     public List<PlaceDTO> searchPlaces(String query) {
         String url = "https://dapi.kakao.com/v2/local/search/keyword.json?query=" + query;
 
@@ -71,7 +71,7 @@ public class PlaceService {
         return places;
     }
 
-    // 🔹 2. 출발지 & 목적지 저장 (장소 중복 저장 방지)
+    // 출발지 or 목적지 저장 + 장소중복 저장 방지..!
     @Transactional
     public void saveSelectedPlaces(RouteDTO request) {
         if (request.getStart() == null || request.getEnd() == null) {
@@ -94,7 +94,7 @@ public class PlaceService {
 
 
 
-    // 🔹 3. 기존 장소 조회 or 신규 저장
+    //기존 장소 조회 or 신규 저장
     private Place findOrCreatePlace(PlaceDTO dto) {
         if (dto == null || dto.getPlaceName() == null || dto.getAddress() == null) {
             throw new IllegalArgumentException("장소 정보가 올바르지 않습니다.");
