@@ -17,4 +17,7 @@ public interface MaterialRepository extends JpaRepository<Material, Long> , Mate
     @EntityGraph(attributePaths = {"imageSet"})
     @Query("select b from Material b where b.materialId = :materialId")
     Optional<Material> findByIdWithImages(Long materialId);
+
+    //제조 공정 등록 레파지토리
+    Page<Material> findByMaterialNameContainingIgnoreCase(String keyword, Pageable pageable);
 }

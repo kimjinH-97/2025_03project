@@ -1,6 +1,8 @@
 package com.project03.controller.manufacturing;
 
 import com.project03.domain.Material;
+import com.project03.dto.material.MaterialPageRequestDTO;
+import com.project03.dto.material.MaterialPageResponseDTO;
 import com.project03.repository.manufacturing.MaterialRepository;
 import com.project03.service.manufacturing.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +42,10 @@ public class ProductController {
     }
 
     @GetMapping("/register")
-    public String showRegisterForm(Model model) {
-        List<Material> materialList = materialRepository.findAll();
-        model.addAttribute("materialList", materialList);
+    public String showRegisterForm(MaterialPageRequestDTO requestDTO, Model model) {
+        MaterialPageResponseDTO<Material> responseDTO = productService.getPagedMaterials(requestDTO);
+        model.addAttribute("result", responseDTO);
+        model.addAttribute("requestDTO", requestDTO);
         return "register";
     }
 

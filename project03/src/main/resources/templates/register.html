@@ -4,32 +4,79 @@
     <meta charset="UTF-8">
     <title>원자재를 제품으로 등록</title>
     <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link rel="stylesheet" th:href="@{/css/list.css}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body style="padding-top: 80px; font-family: 'Noto Sans KR', sans-serif;">
+<body>
 
-<!-- 상단 고정 메뉴 -->
 <div th:replace="fragments/header :: header"></div>
 
-<h1>원자재를 제품으로 등록</h1>
-<div class="container">
-    <div class="material-card" th:each="material : ${materialList}">
-        <div class="radio-area">
-            <input type="radio" name="materialId" th:value="${material.materialId}" required>
-        </div>
-        <div class="material-info">
-            <span><strong>ID:</strong> <span th:text="${material.materialId}"></span></span>
-            <span><strong>설명:</strong> <span th:text="${material.materialDescription}"></span></span>
-            <span><strong>이름:</strong> <span th:text="${material.materialName}"></span></span>
-            <span><strong>수량:</strong> <span th:text="${material.materialQuantity}"></span></span>
-            <span><strong>크기:</strong> <span th:text="${material.materialSize}"></span></span>
+<div class="section">
+    <h1 style="text-align: center;">원자재를 제품으로 등록</h1>
+
+    <!-- 검색 & 초기화 버튼 -->
+    <div class="search-bar">
+        <form method="get" action="/products/register" style="display: flex; gap: 10px;">
+            <input type="text" name="keyword" placeholder="원자재 이름 검색" th:value="${requestDTO.keyword}" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <button type="submit">검색</button>
+            <a th:href="@{/products/register}" class="btn-reset">초기화</a>
+        </form>
+    </div>
+
+    <!-- 테이블 리스트 -->
+    <div class="table-section">
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>원자재 ID</th>
+                <th>이름</th>
+                <th>수량</th>
+                <th>크기</th>
+                <th>설명</th>
+            </tr>
+            <tbody>
+            <tr th:each="material : ${result.dtoList}" class="clickable">
+                <td><input type="radio" name="materialId" th:value="${material.materialId}" required></td>
+                <td th:text="${material.materialId}">102</td>
+                <td th:text="${material.materialName}">PET</td>
+                <td th:text="${material.materialQuantity} + ' 개'">100 개</td>
+                <td th:text="${material.materialSize} + ' M'">1000 M</td>
+                <td th:text="${material.materialDescription}" class="description-cell">테스트1</td> <!-- 마지막으로 이동 -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--등록 버튼 -->
+    <div class="button-area">
+        <button onclick="registerProduct()">제품 등록</button>
+        <p id="result"></p>
+    </div>
+
+
+    <!--페이징 -->
+    <div class="pagination-wrapper" style="display: flex; justify-content: center;">
+        <div class="pagination" th:if="${result.total > 0}">
+            <ul style="display: flex; justify-content: center; list-style: none; padding-left: 0;">
+                <li th:if="${result.prev}">
+                    <a th:href="@{/products/register(page=${result.start - 1}, keyword=${requestDTO.keyword})}">이전</a>
+                </li>
+                <li th:each="pageNum : ${#numbers.sequence(result.start, result.end)}"
+                    th:classappend="${pageNum == requestDTO.page} ? 'active'">
+                    <a th:href="@{/products/register(page=${pageNum}, keyword=${requestDTO.keyword})}"
+                       th:text="${pageNum}">1</a>
+                </li>
+                <li th:if="${result.next}">
+                    <a th:href="@{/products/register(page=${result.end + 1}, keyword=${requestDTO.keyword})}">다음</a>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <button onclick="registerProduct()">제품 등록</button>
-    <p id="result"></p>
+
 </div>
+
 
 <script src="/js/register.js"></script>
 </body>

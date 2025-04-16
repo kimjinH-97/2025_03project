@@ -3,9 +3,13 @@ package com.project03.service.manufacturing;
 import com.project03.domain.Material;
 import com.project03.domain.ProcessStep;
 import com.project03.domain.Product;
+import com.project03.dto.material.MaterialPageRequestDTO;
+import com.project03.dto.material.MaterialPageResponseDTO;
 import com.project03.repository.manufacturing.MaterialRepository;
 import com.project03.repository.manufacturing.ProcessStepRepository;
 import com.project03.repository.manufacturing.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,6 +125,26 @@ public class ProductService {
             return false;
         }
     }
+    //원자재 register 등록
+    public MaterialPageResponseDTO<Material> getPagedMaterials(MaterialPageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable("materialId");
+
+        Page<Material> result;
+
+        if (requestDTO.getKeyword() != null && !requestDTO.getKeyword().isEmpty()) {
+            result = materialRepository.findByMaterialNameContainingIgnoreCase(requestDTO.getKeyword(), pageable);
+        } else {
+            result = materialRepository.findAll(pageable);
+        }
+
+        return MaterialPageResponseDTO.<Material>withAll()
+                .materialPageRequestDTO(requestDTO)
+                .dtoList(result.getContent())
+                .total((int) result.getTotalElements())
+                .build();
+
+    }
+
 
 
 }
